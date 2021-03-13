@@ -1,0 +1,55 @@
+.download-app {
+    height: 48px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+    padding: 0 16px;
+    font-size: 14px;
+    flex-direction: row;
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    left: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    transition: all 0.3s;
+
+    &.hidden {
+        height: 0px;
+        opacity: 0;
+    }
+
+    &__left {
+        flex-direction: row;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        .download-desc {
+            margin-left: 7px;
+            letter-spacing: 1.5px;
+        }
+    }
+    .download-logo {
+        height: 32px;
+        width: 32px;
+        border-radius: 4px;
+    }
+
+    .btn-download {
+        height: 28px;
+        line-height: 28px;
+        border: 1px solid #fff;
+        background-color: none;
+        padding: 0 8px;
+        font-size: 14px;
+        border-radius: 5px;
+        float: right;
+        justify-self:flex-end;
+        color: white;
+    }
+}

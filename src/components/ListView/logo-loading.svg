@@ -1,0 +1,129 @@
+<svg width="64" height="64" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style type="text/css"><![CDATA[
+      #lines-layer {
+        opacity: 1;
+      }
+      #dots-layer {
+        opacity: 0;
+        transform-origin: center;
+      }
+
+      .lines {
+        stroke-width: 70;
+        stroke-linecap: round;
+        stroke-dasharray: 295 400;
+        stroke-dashoffset: 0;
+      }
+
+      #dots-layer .lines {
+        stroke-dashoffset: 294;
+      }
+
+      .top {
+        stroke: #0099ff;
+      }
+      .middle {
+        stroke: #0066ff;
+      }
+      .bottom {
+        stroke: #2568d2;
+      }
+
+      /* #1 线条层 - 线到点(+0, .3s), #3 隐藏(+.35s, .05s) */
+      #lines-layer .lines {
+        animation: lineToDotAndHide 1.5s infinite backwards ease;
+      }
+      #lines-layer .bottom {
+        animation-name: lineToDotAndHide, translateX;
+      }
+
+      /* #2 圆点层 - 显示(+.3s, .05s), #4 旋转(+.4s, .6s) */
+      #dots-layer {
+        animation: showAndRotate 1.5s infinite backwards ease;
+      }
+
+      /* #5 圆点层 - 点到线(+1s, .3s, +.2s) */
+      #dots-layer .lines {
+        animation: dotToLine 1.5s infinite backwards ease;
+      }
+
+      /* #1, #3 线到点和隐藏 */
+      @keyframes lineToDotAndHide {
+        0% {
+          opacity: 1;
+          stroke-dashoffset: 0;
+        }
+
+        20%, 23.333% {
+          opacity: 1;
+          stroke-dashoffset: 294;
+        }
+
+        26.666%, 100% {
+          opacity: 0;
+          stroke-dashoffset: 294;
+        }
+      }
+      /* #1 X轴向左平移 */
+      @keyframes translateX {
+        20%, 100% {
+          transform: translateX(-105px);
+        }
+      }
+
+      /* #2, #4 显示与旋转 */
+      @keyframes showAndRotate {
+        0%, 20% {
+          opacity: 0;
+          transform: rotate(0);
+        }
+
+        23.333%, 26.666% {
+          opacity: 1;
+          transform: rotate(0);
+        }
+
+        66.667%, 100% {
+          opacity: 1;
+          transform: rotate(360deg);
+        }
+      }
+
+      /* #5 点到线 */
+      @keyframes dotToLine {
+        0%, 66.667% {
+          stroke-dashoffset: 294;
+        }
+
+        86.667%, 100% {
+          stroke-dashoffset: 0;
+        }
+      }
+    ]]></style>
+  </defs>
+
+  <!-- 线条层 -->
+  <g id="lines-layer">
+    <!-- 线条1（底层） -->
+    <line class="lines bottom" x1="175" y1="275" x2="330" y2="275" />
+
+    <!-- 线条2（中间层） -->
+    <line class="lines middle" x1="330" y1="275" x2="200" y2="50" />
+
+    <!-- 线条3（顶层） -->
+    <line class="lines top" x1="200" y1="50" x2="70" y2="275" />
+  </g>
+
+  <!-- 圆点层 -->
+  <g id="dots-layer">
+    <!-- 线条1（底层） -->
+    <line class="lines bottom" x1="330" y1="275" x2="175" y2="275" />
+
+    <!-- 线条2（中间层） -->
+    <line class="lines middle" x1="200" y1="50" x2="330" y2="275" />
+
+    <!-- 线条3（顶层） -->
+    <line class="lines top" x1="70" y1="275" x2="200" y2="50" />
+  </g>
+</svg>

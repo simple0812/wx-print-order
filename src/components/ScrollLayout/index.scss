@@ -1,0 +1,80 @@
+html, body {
+  overflow: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  overscroll-behavior: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.common-list-layout {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  user-select: none;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: transform .25s cubic-bezier(0.785, 0.135, 0.150, 0.860);
+  will-change: transform;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+
+  &.has-search-bar {
+    bottom: -86px;
+  }
+
+  &.is-hide-search-bar {
+    transform: translate3d(0, -86px, 0);
+  }
+
+  &__header {
+    height: auto;
+    border-bottom: 1PX solid #efefef;
+
+    // 临时解决点击header底部会触发container点击事件
+    &:active {
+      background: white;
+    }
+  }
+
+  &__container {
+    flex: 1;
+    overflow: hidden;
+  }
+
+  &__footer {
+    flex-grow: 0;
+    flex-shrink: 0;
+    background: white;
+  }
+
+  &__search-bar {
+    margin: 22px 28px;
+  }
+
+  &__tabs {
+    margin: 24px 28px 0;
+
+    // &-content {
+    //   padding: 0 28px;
+    // }
+  }
+
+  .invalid-container {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0px;
+  }
+}

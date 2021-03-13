@@ -1,0 +1,8 @@
+{
+    "extends": ["taro/react"],
+    "rules": {
+        "jsx-quotes": 0,
+        "react/jsx-indent-props": 0,
+        "no-shadow": 0
+    }
+}

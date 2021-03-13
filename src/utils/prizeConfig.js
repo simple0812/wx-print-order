@@ -1,0 +1,14 @@
+let GET_PRIZE_START_TIME = "2021/03/01 00:00:00";
+let GET_PRIZE_END_TIME = "2021/03/07 23:59:59";
+
+if (process.env.HOST_ENV === "production") {
+  GET_PRIZE_START_TIME = "2021/03/01 00:00:00";
+  GET_PRIZE_END_TIME = "2021/03/07 23:59:59";
+}
+
+console.log('GET_PRIZE_START_TIME', GET_PRIZE_START_TIME)
+
+export default {
+  GET_PRIZE_START_TIME,
+  GET_PRIZE_END_TIME,
+};

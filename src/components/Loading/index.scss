@@ -1,0 +1,27 @@
+.abc-x-loading {
+    display: flex;
+    justify-content: center;
+    .dot-x {
+        font-size: 100px;
+        height: 30px;
+        line-height: 30px;
+        width: 30px;
+        display: inline-block;
+        text-align: center;
+        opacity: 0.2;
+        color: #BAC0C5;
+    }
+
+    .active {
+        animation: xloading 1.5s;
+    }
+
+    @keyframes xloading {
+        0% {
+            opacity: 0.2;
+        }
+        100% {
+            opacity: 1.0;
+        }
+    }
+}

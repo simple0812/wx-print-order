@@ -1,0 +1,72 @@
+.bnq-modal {
+    .at-modal__content {
+        min-height: auto;
+        .modal-content {
+            display: flex;
+            justify-content: center;
+        }
+    }
+    .at-button {
+        margin: 0;
+        border: 0;
+        width: 100%;
+        border-radius: 0;
+
+        &.btn-close {
+            border-right: 0.5px solid rgba(0,0,0, 0.1);
+            color: #000;
+        }
+
+        &.btn-ok {
+            color: #576B95;
+        }
+    }
+
+    &__container {
+        background: white;
+        border-radius: 12px;
+    }
+
+    &__title {
+        font-size: 17px;
+        color: #000000;
+        letter-spacing: 0;
+        text-align: center;
+        margin-bottom: 16px;
+        margin-top: 32px;
+    }
+
+    &__content {
+        font-size: 17px;
+        color: #999;
+        letter-spacing: 0;
+        text-align: center;
+        line-height: 24px;
+        margin-bottom: 32px;
+    }
+
+    &__footer {
+        display: flex;
+        flex-direction: row;
+        border-top: 0.5px solid rgba(0,0,0, 0.1);;
+
+        .btn-container {
+            flex-grow: 0;
+            flex-shrink: 0;
+            width: 50%;
+            text-align: center;
+            line-height: 46px;
+
+            &:hover {
+                color: #f7f8f9;
+            }
+        }
+
+        .btn-auth {
+            border: none;
+            background: white;
+            border-radius: 0px;
+            font-weight: 500;
+        }
+    }
+}

@@ -1,0 +1,124 @@
+.orderApply {
+    background: white;
+    padding:0 10px;
+    width: 100vw;
+    height: 100vh;
+    box-sizing: border-box;
+
+    position: relative;
+
+  
+
+    &-title {
+        width: 106px;
+        height: 20px;
+        margin-bottom: 10px;
+    }
+
+    &-desc {
+        font-size: 12px;
+        color: #251A19;
+        font-weight: 400;
+        line-height: 12px;
+        align-self: flex-start;
+        padding-left: 10px;;
+    }
+
+    .form-container {
+        position: absolute;
+
+        top: 12px;
+        left: 10px;
+        right: 10px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        .bnq-form-item {
+            width: 335px;
+            margin-bottom: 12px;
+            background: rgba(255,255,255,0.50);
+            border-radius: 4px;
+
+            .at-input {
+                background: inherit;
+            }
+
+            &__input {
+                height: 42px;
+                min-height: 42px;
+                line-height: 42px;
+            }
+        }
+
+        .zl-input {
+            width: 100%;
+            margin-bottom: 12px;
+            background: #eee;
+            border-radius: 4px;
+            height: 42px;
+            min-height: 42px;
+            line-height: 42px;
+            padding-left: 16px;
+            box-sizing: border-box;
+            color: #333;
+            font-size: 16px;
+            input {
+                height: 42px;
+                min-height: 42px;
+                line-height: 42px;
+            }
+        }
+
+        .zl-input-placeholder {
+            color: #785B45;
+            font-size: 16px;
+        }
+
+        .type-select {
+            margin-top: 10px;
+        }
+
+        .isMultiple {
+            border: none;
+            width: 100%;
+            &::after {
+                border: none;
+            }
+
+            .at-switch__title {
+                margin-right: 5px;
+            }
+        }
+        
+    }
+
+    .btn-apply {
+        // background-image: url(../assets/btn.png);
+        background: #fe7100;
+        border-radius: 4px;
+        background-size: 100% 100%;
+        padding: 0;
+        margin: 0;
+        border: none;
+        width: 100%;
+        height: 48px;
+        margin: 15px 0 5px 0;
+        font-size: 20px;
+        color: white;
+        line-height: 48px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    .bm-txt {
+        width: 39px;
+        height: 19px;
+
+    }
+}
+

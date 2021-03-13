@@ -1,0 +1,12 @@
+<svg width="64" height="64" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <g id="logo">
+    <!-- 线条1（底层） -->
+    <line x1="175" y1="275" x2="330" y2="275" stroke="#2568d2" stroke-width="70" stroke-linecap="round" />
+
+    <!-- 线条2（中间层） -->
+    <line x1="200" y1="50" x2="330" y2="275" stroke="#0066ff" stroke-width="70" stroke-linecap="round" />
+
+    <!-- 线条3（顶层） -->
+    <line x1="200" y1="50" x2="70" y2="275" stroke="#0099ff" stroke-width="70" stroke-linecap="round" />
+  </g>
+</svg>
