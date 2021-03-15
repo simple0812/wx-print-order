@@ -83,7 +83,7 @@ class Merchant extends Component {
                  <SettingItem title="学号" extraText={model?.realName??'未填写'}  bottomGap  arrow onItemClick={this.navEdit} />
                 <View className="form-container">
                     <View className="btn-apply" onClick={this.scanCode}>
-                        打印
+                        扫码
                     </View>
                     <View className="btn-detail" onClick={() => {
                         Taro.navigateTo({
