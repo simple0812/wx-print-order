@@ -2,6 +2,10 @@ let allPages = [
     'pages/index/index',
     'pages/customer/index',
     'pages/merchant/index',
+    'pages/customerRegist/index',
+    'pages/merchantRegist/index',
+    'pages/customerStatistic/index',
+    'pages/merchantStatistic/index',
 ];
 
 let { mainPages, subPages } = splitPackages(allPages);

@@ -7,14 +7,18 @@ import 'taro-ui/dist/style/index.scss';
 
 import './app.scss'
 
-if (Taro.getEnv() !== 'WEB' && process.env.HOST_ENV === 'production') {
-  require('./utils/mtj-wx-sdk');
-}
-
 let _navigateTo = Taro.navigateTo;
 let navigateTimeout = null;
 
 console.log(`ENV NODE:${process.env.NODE_ENV}, HOST:${process.env.HOST_ENV}`)
+
+if (!Promise.delay) {
+  Promise.delay = function(ms) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms || 100);
+    })
+  }
+}
 
 //重写navigateTo 防止重复点击
 Taro.navigateTo = function (...args) {
@@ -32,13 +36,7 @@ Taro.navigateTo = function (...args) {
 
 class App extends Component {
   componentDidMount() {
-
-    // if(Taro.getEnv() === 'WEB') {
-    //   var hm = window.document.createElement("script");
-    //   hm.src = "https://hm.baidu.com/hm.js?80aedf250e698fb74ce6990d184cb0d3";
-    //   var s = window.document.getElementsByTagName("script")[0]; 
-    //   s.parentNode.insertBefore(hm, s);
-    // }
+    
   }
 
   componentDidShow() {

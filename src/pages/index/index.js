@@ -5,9 +5,6 @@ import isEmpty from 'lodash/isEmpty';
 import { inject, observer } from 'mobx-react';
 import taroFnToPromise from '@/utils/taroFnToPromise';
 import { userTypeEnum } from '@/utils/systemEnum';
-import Dialog from '@/components/Dialog';
-import CustomerDialog from './CustomerDialog';
-import MerchantDialog from './MerchantDialog';
 import './index.less';
 
 @inject(store => {
@@ -118,13 +115,13 @@ class IndexPage extends Component {
 
     merchantRegist = () => {
         Taro.navigateTo({
-            url: '/pages/merchant/index'
+            url: '/pages/merchantRegist/index'
         })
     }
 
     customerRegist = () => {
         Taro.navigateTo({
-            url: '/pages/customer/index'
+            url: '/pages/customerRegist/index'
         })
     }
 
@@ -138,9 +135,7 @@ class IndexPage extends Component {
                     // onGetPhoneNumber={this.handleGetWxPhoneNumber.bind(this, userTypeEnum.MERCHANT)}
                     onClick={() => {
                         if (isEmpty(userInfo)) {
-                            this.setState({
-                                isMerchantOpen: true
-                            })
+                            this.merchantRegist();
                             return;
                         }
                         Taro.navigateTo({
@@ -156,9 +151,7 @@ class IndexPage extends Component {
                     // onGetPhoneNumber={(this.handleGetWxPhoneNumber, userTypeEnum.CUSTOMER)}
                     onClick={() => {
                         if (isEmpty(userInfo)) {
-                            this.setState({
-                                isCustomerOpen: true
-                            })
+                            this.customerRegist();
                             return;
                         }
                         
@@ -167,29 +160,8 @@ class IndexPage extends Component {
                         });
                     }}
                 >
-                    客户入口
+                    学生入口
                 </Button>
-            
-                <Dialog
-                    isOpen={this.state.isMerchantOpen}
-                    onClose={() => {
-                        this.setState({
-                            isMerchantOpen: false,
-                        });
-                    }}
-                >
-                    <MerchantDialog onSubmit={this.merchantRegist} />
-                </Dialog>
-                <Dialog
-                    isOpen={this.state.isCustomerOpen}
-                    onClose={() => {
-                        this.setState({
-                            isCustomerOpen: false,
-                        });
-                    }}
-                >
-                    <CustomerDialog onSubmit={this.customerRegist} />
-                </Dialog>
             </View>
         );
     }

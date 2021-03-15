@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { View, Input, Image, Button } from '@tarojs/components';
 import Taro from '@tarojs/taro';
+import SettingItem from '@/components/SettingItem';
 import { AtSwitch } from 'taro-ui';
 import './index.less';
 
@@ -15,7 +16,9 @@ class Merchant extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            model: {},
+            model: {
+                printCount: 1,
+            },
         };
     }
 
@@ -38,69 +41,91 @@ class Merchant extends Component {
     };
 
     handleSubmit = async () => {
-        const { onSubmit } = this.props;
         const { model } = this.state;
-        console.log('ddd', model)
-
-        if (onSubmit) {
-            onSubmit({
-                ip: model.ip,
-                sn: model.sn,
-                isMultiple: model.isMultiple ? 1 : 0,
+        if (!+model.printCount) {
+            Taro.showToast({
+                icon: 'none',
+                title: '请输入打印数量',
             });
+            return;
         }
 
         let res = await this.props.loginStore.printCode({
-            ip: model.ip,
-            sn: model.sn,
-            isMultiple: model.isMultiple ? 1 : 0,
-        })
+            printCount: model.printCount,
+        });
 
         if (res?.success) {
             Taro.showToast({
                 icon: 'none',
-                title: '打印成功'
-            })
+                title: '打印成功',
+            });
         } else {
             Taro.showToast({
                 icon: 'none',
-                title: res?.message || '打印失败'
-            })
+                title: res?.message || '打印失败',
+            });
         }
+    };
+
+    navEdit = () => {
+        Taro.navigateTo({
+            url: '/pages/merchantRegist/index',
+        });
     };
     render() {
         const { model } = this.state;
         return (
             <View className="orderApply">
-                <View className="orderApply-bg" />
+                <SettingItem
+                    title="商户名称"
+                    extraText={model?.realName ?? '未填写'}
+                    arrow
+                    onItemClick={this.navEdit}
+                />
+                <SettingItem
+                    title="联系方式"
+                    extraText={model?.realName ?? '未填写'}
+                    arrow
+                    onItemClick={this.navEdit}
+                />
+                <SettingItem
+                    title="打印机SN"
+                    extraText={model?.realName ?? '未填写'}
+                    arrow
+                    onItemClick={this.navEdit}
+                />
+                <SettingItem
+                    title="打印机Key"
+                    extraText={model?.realName ?? '未填写'}
+                    bottomGap
+                    arrow
+                    onItemClick={this.navEdit}
+                />
+                <SettingItem title="已接单数" extraText={model?.realName ?? '0'} />
+                <SettingItem title="已打印数" extraText={model?.realName ?? '0'} bottomGap />
                 <View className="form-container">
                     <Input
-                        name="ip"
+                        name="printCount"
                         className="zl-input"
                         placeholderClass="zl-input-placeholder"
-                        value={model.ip || ''}
-                        placeholder="请输入IP地址"
+                        value={model.printCount || ''}
+                        placeholder="打印数量"
                         containerStyle={{ border: 'none' }}
-                        onInput={this.handleParamsChange.bind(this, 'ip')}
+                        onInput={this.handleParamsChange.bind(this, 'printCount')}
                     ></Input>
-                    <Input
-                        className="zl-input"
-                        placeholderClass="zl-input-placeholder"
-                        name="sn"
-                        value={model.sn || ''}
-                        placeholder="请输入SN码"
-                        containerStyle={{ border: 'none' }}
-                        onInput={this.handleParamsChange.bind(this, 'sn')}
-                    />
-                    <AtSwitch
-                        className="isMultiple"
-                        title="批量打印"
-                        checked={this.state.isMultiple}
-                        onChange={this.handleChange}
-                    />
 
                     <View className="btn-apply" onClick={this.handleSubmit}>
                         打印
+                    </View>
+                    <View
+                        className="btn-detail"
+                        onClick={() => {
+                            Taro.navigateTo({
+                                url: '/pages/merchantStatistic/index',
+                            });
+                        }}
+                    >
+                        查看商户统计
                     </View>
                 </View>
             </View>

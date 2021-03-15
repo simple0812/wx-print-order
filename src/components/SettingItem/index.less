@@ -1,0 +1,55 @@
+.settings-item {
+    width: 100vw;
+    padding: 13px 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: white;
+    justify-content: space-between;
+    border-bottom: 0.5PX solid #eee;
+
+    &.noborder {
+        border: none;
+    }
+
+    &.bottomgap {
+        margin-bottom: 8px;
+    }
+
+    .settings-arrow {
+        width: 12px;
+        height: 12px;
+        margin-left: 4px;
+        position: relative;
+        top: 1px;
+    }
+
+    &__left {
+        font-family: PingFangSC-Regular;
+        font-size: 16px;
+        color: #333333;
+        height: 22px;
+        width: 98px;
+        flex-grow: 0;
+        flex-shrink: 0;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    &__right {
+        font-family: PingFangSC-Regular;
+        font-size: 16px;
+        line-height: 1.5;
+        color: #999999;
+        flex-grow: 1;
+        flex-shrink: 1;
+        white-space: normal;
+        word-break: break-all;
+        
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+    }
+}

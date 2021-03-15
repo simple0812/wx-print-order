@@ -8,6 +8,9 @@ class LoginService extends BaseService {
       thirdBind: postFn('/login/designerThirdBind'),
       getRealMobile: postFn('/login/getRealMobile'),
 
+      studentRegist: postFn('/login/studentRegist'),
+      merchantRegist: postFn('/login/merchantRegist'),
+
       getOrderList: postFn('/login/getOrderList'),
       scanCode: postFn('/login/scanCode'),
       printCode: postFn('/login/printCode'),
