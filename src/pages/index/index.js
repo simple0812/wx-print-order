@@ -116,6 +116,18 @@ class IndexPage extends Component {
         }
     };
 
+    merchantRegist = () => {
+        Taro.navigateTo({
+            url: '/pages/merchant/index'
+        })
+    }
+
+    customerRegist = () => {
+        Taro.navigateTo({
+            url: '/pages/customer/index'
+        })
+    }
+
     render() {
         const { userInfo } = this.props.loginStore;
         return (
