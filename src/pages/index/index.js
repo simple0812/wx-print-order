@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
 import { Button, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
+import isEmpty from 'lodash/isEmpty';
+import { inject, observer } from 'mobx-react';
+import taroFnToPromise from '@/utils/taroFnToPromise';
+import { userTypeEnum } from '@/utils/systemEnum';
 import './index.less';
 
+@inject(store => {
+    return {
+        loginStore: store.loginStore,
+    };
+})
+@observer
 class IndexPage extends Component {
     constructor(props) {
         super(props);
@@ -15,18 +25,27 @@ class IndexPage extends Component {
 
     componentWillUnmount() {}
 
-    onShareAppMessage = (res) => {
+    onShareAppMessage = res => {
         return {};
     };
 
     initData = async () => {
-        // let userRes = await this.props.loginStore.tryGetUserInfo();
+        let userRes = await this.props.loginStore.tryGetUserInfo();
+        // 如果登录成功了额 根据用户类型自动跳转页面
+        if (userRes.success) {
+            if (userRes?.data?.type === userTypeEnum.CUSTOMER) {
+                Taro.navigateTo({
+                    url: '/pages/customer/index',
+                });
+            } else if (userRes?.data?.type === userTypeEnum.MERCHANT) {
+                Taro.navigateTo({
+                    url: '/pages/merchant/index',
+                });
+            }
+        }
     };
 
-    handleGetWxPhoneNumber = async (res) => {
-        this.setState({
-            isLoginModal: false,
-        });
+    handleGetWxPhoneNumber = async (type, res) => {
         if (res?.detail?.errMsg !== 'getPhoneNumber:ok') {
             Taro.showToast({
                 icon: 'none',
@@ -95,12 +114,17 @@ class IndexPage extends Component {
     };
 
     render() {
+        const { userInfo } = this.props.loginStore;
         return (
             <View className="indexPage">
                 <Button
                     className="btn-entrance"
-                    
+                    openType={isEmpty(userInfo) ? 'getPhoneNumber' : ''}
+                    onGetPhoneNumber={this.handleGetWxPhoneNumber.bind(this, userTypeEnum.MERCHANT)}
                     onClick={() => {
+                        if (isEmpty(userInfo)) {
+                            return;
+                        }
                         Taro.navigateTo({
                             url: '/pages/merchant/index',
                         });
@@ -110,7 +134,13 @@ class IndexPage extends Component {
                 </Button>
                 <Button
                     className="btn-entrance"
+                    openType={isEmpty(userInfo) ? 'getPhoneNumber' : ''}
+                    onGetPhoneNumber={(this.handleGetWxPhoneNumber, userTypeEnum.CUSTOMER)}
                     onClick={() => {
+                        if (isEmpty(userInfo)) {
+                            return;
+                        }
+                        
                         Taro.navigateTo({
                             url: '/pages/customer/index',
                         });

@@ -2,13 +2,8 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { View, Image, OpenData, Button } from '@tarojs/components';
 import CommonListLayout from '@/components/ScrollLayout';
-import BnqModal from '@/components/BnqModal';
-import isEmpty from 'lodash/isEmpty';
-import { AtAvatar } from 'taro-ui';
 import Taro from '@tarojs/taro';
-import taroFnToPromise from '@/utils/taroFnToPromise';
 
-import designerService from '@/service/designer';
 
 import './index.less';
 
@@ -33,11 +28,20 @@ class Index extends React.Component {
     constructor() {
         super(...arguments);
         this.state = {
-            dataSource: [],
+            dataSource: [
+                { id: '1', name: 'text', code: 'xxxxx' },
+                { id: '2', name: 'text', code: 'xxxxx' },
+                { id: '3', name: 'text', code: 'xxxxx' },
+                { id: '4', name: 'text', code: 'xxxxx' },
+                { id: '5', name: 'text', code: 'xxxxx' },
+                { id: '6', name: 'text', code: 'xxxxx' },
+                { id: '7', name: 'text', code: 'xxxxx' },
+                { id: '8', name: 'text', code: 'xxxxx' },
+                { id: '9', name: 'text', code: 'xxxxx' },
+            ],
             hasMore: true,
             pageNum: 1,
             pageSize: 10,
-            total: 0,
         };
     }
 
@@ -52,7 +56,6 @@ class Index extends React.Component {
     };
 
     initData = async () => {
-        let userRes = await this.props.loginStore.tryGetUserInfo();
         this.fetchData({ pageNum: 1 });
     };
 
@@ -65,7 +68,7 @@ class Index extends React.Component {
         this.setState({
             loading: true,
         });
-        let res = await designerService.getCaseList({
+        let res = await this.props.loginStore.getOrderList({
             designerCode: userInfo?.designerCode || '',
             pageNum,
             pageSize,
@@ -76,7 +79,6 @@ class Index extends React.Component {
                 loading: false,
                 hasMore: true,
                 pageNum: pageNum + 1,
-                total: res?.data?.total || 0,
                 dataSource: pn == 1 ? [...res.data.list] : [...dataSource, ...res.data.list],
             });
         } else {
@@ -97,7 +99,7 @@ class Index extends React.Component {
 
     scanCode = () => {
         Taro.scanCode({
-            success(res) {
+            async success(res) {
                 if (res.errMsg !== 'scanCode:ok') {
                     Taro.showToast({
                         title: res.errMsg || '扫码失败',
@@ -107,10 +109,19 @@ class Index extends React.Component {
                 }
 
                 let data = res.result;
-                Taro.showToast({
-                    icon: 'none',
-                    title: data || '识别失败'
-                })
+
+                let dRes = await this.props.loginStore.scanCode({ data });
+                if (dRes?.success) {
+                    Taro.showToast({
+                        icon: 'none',
+                        title: '扫码成功',
+                    });
+                } else {
+                    Taro.showToast({
+                        icon: 'none',
+                        title: dRes?.message || '识别失败',
+                    });
+                }
             },
         });
     };
@@ -126,7 +137,7 @@ class Index extends React.Component {
                         <View className="user-container">
                             <OpenData type="userAvatarUrl" className="user-avatar" />
                             <View className="user-info">
-                                <OpenData type='userNickName' className='user-info-name' />
+                                <OpenData type="userNickName" className="user-info-name" />
                             </View>
                             <View className="setting-container" onClick={this.scanCode}>
                                 <Button className="user-setting">扫码</Button>
@@ -157,7 +168,7 @@ class Index extends React.Component {
     };
 
     render() {
-        const { loading, hasMore, total } = this.state;
+        const { loading, hasMore, dataSource } = this.state;
         return (
             <>
                 <CommonListLayout
@@ -177,75 +188,12 @@ class Index extends React.Component {
                         <View className="t-cell">测试t2</View>
                     </View>
                     <View className="t-body">
-                        <View className="t-row">
-                            <View className="t-cell">测试1</View>
-                            <View className="t-cell">测试2</View>
-                        </View>
-                        <View className="t-row">
-                            <View className="t-cell">测试1</View>
-                            <View className="t-cell">测试2</View>
-                        </View>
-                        <View className="t-row">
-                            <View className="t-cell">测试1</View>
-                            <View className="t-cell">测试2</View>
-                        </View>
-                        <View className="t-row">
-                            <View className="t-cell">测试1</View>
-                            <View className="t-cell">测试2</View>
-                        </View>
-                        <View className="t-row">
-                            <View className="t-cell">测试1</View>
-                            <View className="t-cell">测试2</View>
-                        </View>
-                        <View className="t-row">
-                            <View className="t-cell">测试1</View>
-                            <View className="t-cell">测试2</View>
-                        </View>
-                        <View className="t-row">
-                            <View className="t-cell">测试1</View>
-                            <View className="t-cell">测试2</View>
-                        </View>
-                        <View className="t-row">
-                            <View className="t-cell">测试1</View>
-                            <View className="t-cell">测试2</View>
-                        </View>
-                        <View className="t-row">
-                            <View className="t-cell">测试1</View>
-                            <View className="t-cell">测试2</View>
-                        </View>
-                        <View className="t-row">
-                            <View className="t-cell">测试1</View>
-                            <View className="t-cell">测试2</View>
-                        </View>
-                        <View className="t-row">
-                            <View className="t-cell">测试1</View>
-                            <View className="t-cell">测试2</View>
-                        </View>
-                        <View className="t-row">
-                            <View className="t-cell">测试1</View>
-                            <View className="t-cell">测试2</View>
-                        </View>
-                        <View className="t-row">
-                            <View className="t-cell">测试1</View>
-                            <View className="t-cell">测试2</View>
-                        </View>
-                        <View className="t-row">
-                            <View className="t-cell">测试1</View>
-                            <View className="t-cell">测试2</View>
-                        </View>
-                        <View className="t-row">
-                            <View className="t-cell">测试1</View>
-                            <View className="t-cell">测试2</View>
-                        </View>
-
-                        <View className="t-row">
-                            <View className="t-cell">测试1</View>
-                            <View className="t-cell">测试2</View>
-                        </View>
-                        <View className="t-row">
-                            <View className="t-cell">测试1</View>
-                            <View className="t-cell">测试2</View>
-                        </View>
+                        {(dataSource || []).map(each => (
+                            <View className="t-row" key={each.id}>
+                                <View className="t-cell">{each.name}</View>
+                                <View className="t-cell">{each.code}</View>
+                            </View>
+                        ))}
                     </View>
                 </CommonListLayout>
             </>
