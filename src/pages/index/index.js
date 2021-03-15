@@ -5,6 +5,9 @@ import isEmpty from 'lodash/isEmpty';
 import { inject, observer } from 'mobx-react';
 import taroFnToPromise from '@/utils/taroFnToPromise';
 import { userTypeEnum } from '@/utils/systemEnum';
+import Dialog from '@/components/Dialog';
+import CustomerDialog from './CustomerDialog';
+import MerchantDialog from './MerchantDialog';
 import './index.less';
 
 @inject(store => {
@@ -119,10 +122,13 @@ class IndexPage extends Component {
             <View className="indexPage">
                 <Button
                     className="btn-entrance"
-                    openType={isEmpty(userInfo) ? 'getPhoneNumber' : ''}
-                    onGetPhoneNumber={this.handleGetWxPhoneNumber.bind(this, userTypeEnum.MERCHANT)}
+                    // openType={isEmpty(userInfo) ? 'getPhoneNumber' : ''}
+                    // onGetPhoneNumber={this.handleGetWxPhoneNumber.bind(this, userTypeEnum.MERCHANT)}
                     onClick={() => {
                         if (isEmpty(userInfo)) {
+                            this.setState({
+                                isMerchantOpen: true
+                            })
                             return;
                         }
                         Taro.navigateTo({
@@ -134,10 +140,13 @@ class IndexPage extends Component {
                 </Button>
                 <Button
                     className="btn-entrance"
-                    openType={isEmpty(userInfo) ? 'getPhoneNumber' : ''}
-                    onGetPhoneNumber={(this.handleGetWxPhoneNumber, userTypeEnum.CUSTOMER)}
+                    // openType={isEmpty(userInfo) ? 'getPhoneNumber' : ''}
+                    // onGetPhoneNumber={(this.handleGetWxPhoneNumber, userTypeEnum.CUSTOMER)}
                     onClick={() => {
                         if (isEmpty(userInfo)) {
+                            this.setState({
+                                isCustomerOpen: true
+                            })
                             return;
                         }
                         
@@ -148,6 +157,27 @@ class IndexPage extends Component {
                 >
                     客户入口
                 </Button>
+            
+                <Dialog
+                    isOpen={this.state.isMerchantOpen}
+                    onClose={() => {
+                        this.setState({
+                            isMerchantOpen: false,
+                        });
+                    }}
+                >
+                    <MerchantDialog onSubmit={this.merchantRegist} />
+                </Dialog>
+                <Dialog
+                    isOpen={this.state.isCustomerOpen}
+                    onClose={() => {
+                        this.setState({
+                            isCustomerOpen: false,
+                        });
+                    }}
+                >
+                    <CustomerDialog onSubmit={this.customerRegist} />
+                </Dialog>
             </View>
         );
     }

@@ -1,0 +1,112 @@
+.orderApply {
+    background: #000;
+    padding:0 10px;
+    width: 100vw;
+    box-sizing: border-box;
+
+    position: relative;
+
+    &-bg {
+        width: 355px;
+        height: 231px;
+        opacity: 1;
+        background: linear-gradient(0deg,#b38464, #f5e9cf 100%);
+        border-radius: 6px;
+    }
+
+    &-title {
+        width: 106px;
+        height: 20px;
+        margin-bottom: 10px;
+    }
+
+    &-desc {
+        font-size: 12px;
+        color: #251A19;
+        font-weight: 400;
+        line-height: 12px;
+        align-self: flex-start;
+        padding-left: 10px;;
+    }
+
+    .form-container {
+        position: absolute;
+
+        top: 12px;
+        left: 10px;
+        right: 10px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .bnq-form-item {
+            width: 335px;
+            margin-bottom: 12px;
+            background: rgba(255,255,255,0.50);
+            border-radius: 4px;
+
+            .at-input {
+                background: inherit;
+            }
+
+            &__input {
+                height: 42px;
+                min-height: 42px;
+                line-height: 42px;
+            }
+        }
+
+        .zl-input {
+            width: 335px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 4px;
+            height: 42px;
+            min-height: 42px;
+            line-height: 42px;
+            padding-left: 16px;
+            box-sizing: border-box;
+            color: #333;
+            font-size: 16px;
+            input {
+                height: 42px;
+                min-height: 42px;
+                line-height: 42px;
+            }
+        }
+
+        .zl-input-placeholder {
+            color: #785B45;
+            font-size: 16px;
+        }
+
+        .type-select {
+            margin-top: 10px;
+        }
+        
+    }
+
+    .btn-apply {
+        background-image: url(../assets/btn.png);
+        background-size: 100% 100%;
+        padding: 0;
+        margin: 0;
+        border: none;
+        width: 355px;
+        height: 58px;
+        margin: -5px 0 5px 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    .bm-txt {
+        width: 39px;
+        height: 19px;
+
+    }
+}
+
