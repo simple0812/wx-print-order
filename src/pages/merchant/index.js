@@ -68,23 +68,23 @@ class Merchant extends Component {
     };
 
     navEdit = () => {
-        Taro.navigateTo({
-            url: '/pages/merchantRegist/index',
-        });
+        // Taro.navigateTo({
+        //     url: '/pages/merchantRegist/index',
+        // });
     };
     render() {
-        const { model } = this.state;
+        const { userInfo } = this.props.loginStore;
         return (
             <View className="orderApply">
                 <SettingItem
                     title="商户名称"
-                    extraText={model?.realName ?? '未填写'}
+                    extraText={userInfo?.userName ?? '未填写'}
                     arrow
                     onItemClick={this.navEdit}
                 />
                 <SettingItem
                     title="联系方式"
-                    extraText={model?.realName ?? '未填写'}
+                    extraText={userInfo?.phone ?? '未填写'}
                     arrow
                     onItemClick={this.navEdit}
                 />

@@ -87,7 +87,7 @@ export const userTypeEnum = {
         label: '客户',
     },
     MERCHANT: {
-        value: 2,
+        value: 0,
         label: '商家',
     },
 };

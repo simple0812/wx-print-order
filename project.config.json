@@ -1,8 +1,8 @@
 {
   "miniprogramRoot": "dist/",
-  "projectname": "design_app",
+  "projectname": "wx_print",
   "description": "",
-  "appid": "wxff125c36c6c9d4ff",
+  "appid": "wx467fe233d29ea897",
   "setting": {
     "urlCheck": false,
     "scopeDataCheck": false,

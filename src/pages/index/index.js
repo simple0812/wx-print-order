@@ -32,16 +32,14 @@ class IndexPage extends Component {
     initData = async () => {
         let userRes = await this.props.loginStore.tryGetUserInfo();
         // 如果登录成功了额 根据用户类型自动跳转页面
-        if (userRes.success) {
-            if (userRes?.data?.type === userTypeEnum.CUSTOMER) {
-                Taro.navigateTo({
-                    url: '/pages/customer/index',
-                });
-            } else if (userRes?.data?.type === userTypeEnum.MERCHANT) {
-                Taro.navigateTo({
-                    url: '/pages/merchant/index',
-                });
-            }
+        if (userRes?.result?.userType === userTypeEnum.CUSTOMER) {
+            Taro.navigateTo({
+                url: '/pages/customer/index',
+            });
+        } else if (userRes?.result?.userType === userTypeEnum.MERCHANT) {
+            Taro.navigateTo({
+                url: '/pages/merchant/index',
+            });
         }
     };
 
@@ -131,8 +129,6 @@ class IndexPage extends Component {
             <View className="indexPage">
                 <Button
                     className="btn-entrance"
-                    // openType={isEmpty(userInfo) ? 'getPhoneNumber' : ''}
-                    // onGetPhoneNumber={this.handleGetWxPhoneNumber.bind(this, userTypeEnum.MERCHANT)}
                     onClick={() => {
                         if (isEmpty(userInfo)) {
                             this.merchantRegist();
@@ -147,8 +143,6 @@ class IndexPage extends Component {
                 </Button>
                 <Button
                     className="btn-entrance"
-                    // openType={isEmpty(userInfo) ? 'getPhoneNumber' : ''}
-                    // onGetPhoneNumber={(this.handleGetWxPhoneNumber, userTypeEnum.CUSTOMER)}
                     onClick={() => {
                         if (isEmpty(userInfo)) {
                             this.customerRegist();

@@ -15,7 +15,9 @@ class Merchant extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            model: {},
+            model: {
+                userName: props.loginStore?.userInfo?.userName
+            },
         };
     }
 
@@ -39,7 +41,7 @@ class Merchant extends Component {
 
     handleSubmit = async () => {
         const { model } = this.state;
-        if (!model?.studentName) {
+        if (!model?.userName) {
             Taro.showToast({
                 icon: 'none',
                 title: '学生名称不能为空',
@@ -47,39 +49,18 @@ class Merchant extends Component {
             return;
         }
 
-        if (!model?.phone) {
-            Taro.showToast({
-                icon: 'none',
-                title: '学生联系方式不能为空',
-            });
-            return;
-        }
-
-        Taro.showToast({
-            icon: 'none',
-            title: '注册成功',
-        });
-
-        await Promise.delay(500);
-        Taro.navigateTo({
-            url: '/pages/customer/index',
-        });
-        return;
-
-        Taro.showLoading({
-            mask: true,
-        });
-
-        let res = await this.props.loginStore.studentRegist({
+        let res = await this.props.loginStore.addCustomer({
+            userWechatOpenid: this.props.loginStore?.userInfo?.userWechatOpenid,
+            userType: 1,
             ...model,
         });
 
         Taro.hideLoading();
 
-        if (res?.success) {
+        if (res?.code == 200) {
             Taro.showToast({
                 icon: 'none',
-                title: '注册成功',
+                title: '保存成功',
             });
 
             await Promise.delay(500);
@@ -89,7 +70,7 @@ class Merchant extends Component {
         } else {
             Taro.showToast({
                 icon: 'none',
-                title: res?.message || '注册失败',
+                title: res?.message || '保存失败',
             });
         }
     };
@@ -100,13 +81,13 @@ class Merchant extends Component {
                 <View className="orderApply-bg" />
                 <View className="form-container">
                     <Input
-                        name="studentName"
+                        name="userName"
                         className="zl-input"
                         placeholderClass="zl-input-placeholder"
-                        value={model.studentName || ''}
+                        value={model.userName || ''}
                         placeholder="请输入学生名称"
                         containerStyle={{ border: 'none' }}
-                        onInput={this.handleParamsChange.bind(this, 'studentName')}
+                        onInput={this.handleParamsChange.bind(this, 'userName')}
                     ></Input>
                     <Input
                         name="phone"

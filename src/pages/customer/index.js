@@ -70,17 +70,17 @@ class Merchant extends Component {
     };
 
     navEdit = () => {
-        Taro.navigateTo({
-            url: '/pages/customerRegist/index'
-        })
+        // Taro.navigateTo({
+        //     url: '/pages/customerRegist/index'
+        // })
     }
     render() {
-        const { model } = this.state;
+        const { userInfo } = this.props.loginStore;
         return (
             <View className="orderApply">
-                 <SettingItem title="学生名称" extraText={model?.realName??'未填写'} arrow onItemClick={this.navEdit} />
-                 <SettingItem title="联系方式" extraText={model?.realName??'未填写'} arrow onItemClick={this.navEdit} />
-                 <SettingItem title="学号" extraText={model?.realName??'未填写'}  bottomGap  arrow onItemClick={this.navEdit} />
+                 <SettingItem title="学生名称" extraText={userInfo?.userName??'未填写'} arrow onItemClick={this.navEdit} />
+                 <SettingItem title="联系方式" extraText={userInfo?.phone??'未填写'} arrow onItemClick={this.navEdit} />
+                 <SettingItem title="学号" extraText={userInfo?.code??'未填写'}  bottomGap  arrow onItemClick={this.navEdit} />
                 <View className="form-container">
                     <View className="btn-apply" onClick={this.scanCode}>
                         扫码

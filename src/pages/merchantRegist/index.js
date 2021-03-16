@@ -39,7 +39,7 @@ class Merchant extends Component {
 
     handleSubmit = async () => {
         const { model } = this.state;
-        if (!model?.merchantName) {
+        if (!model?.userName) {
             Taro.showToast({
                 icon: 'none',
                 title: '商户名称不能为空',
@@ -47,7 +47,7 @@ class Merchant extends Component {
             return;
         }
 
-        if (!model?.printKey) {
+        if (!model?.printerKey) {
             Taro.showToast({
                 icon: 'none',
                 title: '打印机key不能为空',
@@ -55,7 +55,7 @@ class Merchant extends Component {
             return;
         }
 
-        if (!model?.sn) {
+        if (!model?.printerSn) {
             Taro.showToast({
                 icon: 'none',
                 title: '打印机SN码不能为空',
@@ -63,32 +63,22 @@ class Merchant extends Component {
             return;
         }
 
-        Taro.showToast({
-            icon: 'none',
-            title: '注册成功',
-        });
-
-        await Promise.delay(500);
-
-        Taro.navigateTo({
-            url: '/pages/merchant/index',
-        });
-        return;
-
         Taro.showLoading({
             mask: true,
         });
 
-        let res = await this.props.loginStore.merchantRegist({
+        let res = await this.props.loginStore.addMerchant({
+            userWechatOpenid: this.props.loginStore?.userInfo?.userWechatOpenid,
+            userType: 0,
             ...model,
         });
 
         Taro.hideLoading();
 
-        if (res?.success) {
+        if (res?.code == 200) {
             Taro.showToast({
                 icon: 'none',
-                title: '注册成功',
+                title: '保存成功',
             });
             await Promise.delay(500);
 
@@ -98,7 +88,7 @@ class Merchant extends Component {
         } else {
             Taro.showToast({
                 icon: 'none',
-                title: res?.message || '注册失败',
+                title: res?.message || '保存失败',
             });
         }
     };
@@ -109,13 +99,13 @@ class Merchant extends Component {
                 <View className="orderApply-bg" />
                 <View className="form-container">
                     <Input
-                        name="merchantName"
+                        name="userName"
                         className="zl-input"
                         placeholderClass="zl-input-placeholder"
-                        value={model.merchantName || ''}
+                        value={model.userName || ''}
                         placeholder="请输入商户名称"
                         containerStyle={{ border: 'none' }}
-                        onInput={this.handleParamsChange.bind(this, 'merchantName')}
+                        onInput={this.handleParamsChange.bind(this, 'userName')}
                     ></Input>
                     <Input
                         name="phone"
@@ -127,29 +117,23 @@ class Merchant extends Component {
                         onInput={this.handleParamsChange.bind(this, 'phone')}
                     ></Input>
                     <Input
-                        name="printKey"
+                        name="printerKey"
                         className="zl-input"
                         placeholderClass="zl-input-placeholder"
-                        value={model.printKey || ''}
+                        value={model.printerKey || ''}
                         placeholder="请输入打印机Key"
                         containerStyle={{ border: 'none' }}
-                        onInput={this.handleParamsChange.bind(this, 'printKey')}
+                        onInput={this.handleParamsChange.bind(this, 'printerKey')}
                     ></Input>
                     <Input
                         className="zl-input"
                         placeholderClass="zl-input-placeholder"
-                        name="sn"
-                        value={model.sn || ''}
+                        name="printerSn"
+                        value={model.printerSn || ''}
                         placeholder="请输入SN码"
                         containerStyle={{ border: 'none' }}
-                        onInput={this.handleParamsChange.bind(this, 'sn')}
+                        onInput={this.handleParamsChange.bind(this, 'printerSn')}
                     />
-                    {/* <AtSwitch
-                        className="isMultiple"
-                        title="批量打印"
-                        checked={this.state.isMultiple}
-                        onChange={this.handleChange}
-                    /> */}
 
                     <View className="btn-apply" onClick={this.handleSubmit}>
                         保存

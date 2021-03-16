@@ -9,6 +9,8 @@ class Remote {
   static METHOD = {
     GET: 'GET',
     POST: 'POST',
+    PUT: 'PUT',
+    DELETE: 'DELETE',
   };
 
   constructor() {
@@ -53,12 +55,6 @@ class Remote {
     const env = this.getHostEnv();
     const typeJson = {
       default: `${Config[env].apiUrl}${Config[env].apiUrlFilter}`,
-      prize: `${Config[env].prizeUrl}${Config[env].prizeUrlFilter}`,
-      auth: `${Config[env].authUrl}${Config[env].authUrlFilter}`,
-      qiniu: `${Config[env].qiniuUrl}`,
-      im: `${Config[env].imUrl}`,
-      invoice: `${Config[env].targetInvoiceUrl}`,
-      // map: `${Config[env].tenxunMapUrl}`,
     };
     return typeJson[type];
   };
@@ -74,7 +70,6 @@ class Remote {
     // 获取token加入请求头
     const sessionToken = Taro.getStorageSync('sessionToken');
     if (sessionToken) {
-      options.header.sessionToken = sessionToken;
       options.header.token = sessionToken;
     }
 
@@ -102,7 +97,31 @@ class Remote {
       url: `${this.genDomainForEnv(urlType || 'default')}${url}`,
       method: Remote.METHOD.POST,
       header: {
-        'content-type': 'application/json',
+        'content-type': 'application/json'
+      },
+    }
+    return this.http(options);
+  }
+
+  put = async (url, data, urlType) => {
+    const options = {
+      data,
+      url: `${this.genDomainForEnv(urlType || 'default')}${url}`,
+      method: Remote.METHOD.PUT,
+      header: {
+        'content-type': 'application/x-www-form-urlencggoded;charset=UTF-8'
+      },
+    }
+    return this.http(options);
+  }
+
+  delete = async (url, data, urlType) => {
+    const options = {
+      data,
+      url: `${this.genDomainForEnv(urlType || 'default')}${url}`,
+      method: Remote.METHOD.DELETE,
+      header: {
+        'content-type': 'application/x-www-form-urlencggoded;charset=UTF-8'
       },
     }
     return this.http(options);

@@ -1,6 +1,6 @@
 import request from '../utils/request.js';
 
-const { get, post } = request;
+const { get, post, put } = request;
 export function getFn(url, urlType) {
   return function (...params) {
     return get(url, ...params, urlType);
@@ -12,6 +12,20 @@ export function postFn(url, urlType) {
     return post(url, ...params, urlType);
   };
 }
+
+export function putFn(url, urlType) {
+  return function (...params) {
+    return put(url, ...params, urlType);
+  };
+}
+
+
+export function deleteFn(url, urlType) {
+  return function (...params) {
+    return request.delete(url, ...params, urlType);
+  };
+}
+
 
 export default class BaseService {
   constructor(moduleName = '', apiMap = {}) {

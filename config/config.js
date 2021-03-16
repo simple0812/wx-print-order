@@ -5,45 +5,22 @@ let zengPort = '8301';
 
 const url = {
     development: {
-        apiUrl: 'https://dm-test.bthome.com',
-        apiUrlFilter: '/dmAppApi',
-		prizeUrl: 'https://m-test.market.bnq.com.cn',
-        prizeUrlFilter: '/wx-web',
-        targetInvoiceUrl: 'https://pinvoice-test.bthome.com/invoiceAdmin',
-        qiniuUrl: 'https://xres.bnq.com.cn/file',
+        // apiUrl: 'https://senchuangyefan.cn',
+        apiUrl: 'https://senchuangyefan.cn:9090',
+        apiUrlFilter: '/waimai',
     },
     local: {
-        apiUrl: `http://${localIp}:9000`, // test
-        apiUrlFilter: '/dmAppApi',
-		prizeUrl: 'https://m-test.market.bnq.com.cn',
-        prizeUrlFilter: '/wx-web',
-        targetInvoiceUrl: 'https://pinvoice-dev.bthome.com/invoiceAdmin',
-        qiniuUrl: 'https://xres.bnq.com.cn/file',
-    },
-    zeng: {
-        apiUrl: `http://${zengHost}:${zengPort}`,
-        apiUrlFilter: '/dmAppApi',
-		prizeUrl: 'https://m-test.market.bnq.com.cn',
-        prizeUrlFilter: '/wx-web',
-        targetInvoiceUrl: 'https://pinvoice-dev.bthome.com/invoiceAdmin',
-        qiniuUrl: 'https://xres.bnq.com.cn/file',
-        // qiniuUrl: "//xres.bnq.com.cn/file",
+        apiUrl: 'https://senchuangyefan.cn:9090',
+        apiUrlFilter: '/waimai',
     },
     test: {
-        apiUrl: 'https://dm-test.bthome.com',
-        apiUrlFilter: '/dmAppApi',
-		prizeUrl: 'https://m-test.market.bnq.com.cn',
-        prizeUrlFilter: '/wx-web',
-        targetInvoiceUrl: 'https://pinvoice-test.bthome.com/invoiceAdmin',
-        qiniuUrl: 'https://xres.bnq.com.cn/file',
+        apiUrl: 'https://senchuangyefan.cn:9090',
+        apiUrlFilter: '/waimai',
+		
     },
     production: {
-        apiUrl: 'https://dm.bthome.com',
-        apiUrlFilter: '/dmAppApi',
-		prizeUrl: 'https://m.market.bnq.com.cn',
-        prizeUrlFilter: '/wx-web',
-        targetInvoiceUrl: 'https://pinvoice.bthome.com/invoiceAdmin',
-        qiniuUrl: 'https://xres.bnq.com.cn/file',
+        apiUrl: 'https://senchuangyefan.cn:9090',
+        apiUrlFilter: '/waimai',
     },
 };
 

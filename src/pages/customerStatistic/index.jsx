@@ -77,8 +77,8 @@ class Index extends React.Component {
         this.setState({
             loading: true,
         });
-        let res = await this.props.loginStore.getOrderList({
-            designerCode: userInfo?.designerCode || '',
+        let res = await this.props.loginStore.getCustomerOrders({
+            userId: userInfo?.id || '',
             pageNum,
             pageSize,
         });
@@ -124,14 +124,18 @@ class Index extends React.Component {
                     onEndReached={this.loadMore}
                 >
                     <View className="t-head">
-                        <View className="t-cell">测试t1</View>
-                        <View className="t-cell">测试t2</View>
+                        <View className="t-cell">商家编号</View>
+                        <View className="t-cell">商家名称</View>
+                        <View className="t-cell">打印编码</View>
+                        <View className="t-cell">扫码时间</View>
                     </View>
                     <View className="t-body">
                         {(dataSource || []).map(each => (
                             <View className="t-row" key={each.id}>
-                                <View className="t-cell">{each.name}</View>
-                                <View className="t-cell">{each.code}</View>
+                                <View className="t-cell">{each.sellerId}</View>
+                                <View className="t-cell">{each.sellerName}</View>
+                                <View className="t-cell">{each.orderNum}</View>
+                                <View className="t-cell">{each.bindTime}</View>
                             </View>
                         ))}
                     </View>
