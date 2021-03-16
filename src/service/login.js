@@ -29,7 +29,7 @@ class LoginService extends BaseService {
       },
       scanCode: putFn('/orderPrintLog/modify'),
       printCode: ({printerId, count}) => {
-        return post(`/waimai/sellerPrinter/print/${printerId}/${count}`)
+        return post(`/sellerPrinter/print/${printerId}/${count}`)
       },
     });
   }

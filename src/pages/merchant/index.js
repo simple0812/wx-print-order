@@ -70,7 +70,7 @@ class Merchant extends Component {
         }
 
         let res = await this.props.loginStore.printCode({
-            printerId: userInfo?.printKey || '',
+            printerId: userInfo?.id || '',
             count: model.printCount,
         });
 
@@ -111,13 +111,13 @@ class Merchant extends Component {
                 />
                 <SettingItem
                     title="打印机SN"
-                    extraText={userInfo?.printSn ?? '未填写'}
+                    extraText={userInfo?.printerSn ?? '未填写'}
                     arrow
                     onItemClick={this.navEdit}
                 />
                 <SettingItem
                     title="打印机Key"
-                    extraText={userInfo?.printKey ?? '未填写'}
+                    extraText={userInfo?.printerKey ?? '未填写'}
                     bottomGap
                     arrow
                     onItemClick={this.navEdit}
