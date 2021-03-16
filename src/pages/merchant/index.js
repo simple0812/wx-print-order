@@ -74,7 +74,7 @@ class Merchant extends Component {
             count: model.printCount,
         });
 
-        if (res?.success) {
+        if (res?.code == 200) {
             Taro.showToast({
                 icon: 'none',
                 title: '打印成功',

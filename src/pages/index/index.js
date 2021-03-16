@@ -96,7 +96,7 @@ class IndexPage extends Component {
             let res = await this.props.loginStore.thirdBind(data);
             Taro.hideLoading();
 
-            if (res && res.success) {
+            if (res && res.code == 200) {
                 Taro.showToast({
                     icon: 'none',
                     title: '注册成功',
@@ -116,15 +116,15 @@ class IndexPage extends Component {
 
     merchantRegist = () => {
         Taro.navigateTo({
-            url: '/pages/merchantRegist/index'
-        })
-    }
+            url: '/pages/merchantRegist/index',
+        });
+    };
 
     customerRegist = () => {
         Taro.navigateTo({
-            url: '/pages/customerRegist/index'
-        })
-    }
+            url: '/pages/customerRegist/index',
+        });
+    };
 
     render() {
         const { userInfo } = this.props.loginStore;
@@ -151,7 +151,7 @@ class IndexPage extends Component {
                             this.customerRegist();
                             return;
                         }
-                        
+
                         Taro.navigateTo({
                             url: '/pages/customer/index',
                         });

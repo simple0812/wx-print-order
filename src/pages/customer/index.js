@@ -86,7 +86,7 @@ class Merchant extends Component {
                     orderPrintTime: dateFormat('YYYY-mm-dd HH:MM:SS', now),
                     userId: userInfo?.id,
                 });
-                if (dRes?.success) {
+                if (dRes?.code == 200) {
                     Taro.showToast({
                         icon: 'none',
                         title: '扫码成功',

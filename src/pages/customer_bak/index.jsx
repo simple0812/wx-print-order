@@ -4,7 +4,6 @@ import { View, Image, OpenData, Button } from '@tarojs/components';
 import CommonListLayout from '@/components/ScrollLayout';
 import Taro from '@tarojs/taro';
 
-
 import './index.less';
 
 function formatNumber(num) {
@@ -73,7 +72,7 @@ class Index extends React.Component {
             pageNum,
             pageSize,
         });
-        if (res?.success && res?.data?.list?.length) {
+        if (res?.code == 200 && res?.data?.list?.length) {
             // 刷新数据
             this.setState({
                 loading: false,
@@ -111,7 +110,7 @@ class Index extends React.Component {
                 let data = res.result;
 
                 let dRes = await this.props.loginStore.scanCode({ data });
-                if (dRes?.success) {
+                if ((dRes?.code == 200)) {
                     Taro.showToast({
                         icon: 'none',
                         title: '扫码成功',
