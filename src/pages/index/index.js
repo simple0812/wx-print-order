@@ -31,12 +31,15 @@ class IndexPage extends Component {
 
     initData = async () => {
         let userRes = await this.props.loginStore.tryGetUserInfo();
+        if (!userRes?.result?.id) {
+            return;
+        }
         // 如果登录成功了额 根据用户类型自动跳转页面
-        if (userRes?.result?.userType === userTypeEnum.CUSTOMER) {
+        if (userRes?.result?.userType == userTypeEnum.CUSTOMER) {
             Taro.navigateTo({
                 url: '/pages/customer/index',
             });
-        } else if (userRes?.result?.userType === userTypeEnum.MERCHANT) {
+        } else if (userRes?.result?.userType == userTypeEnum.MERCHANT) {
             Taro.navigateTo({
                 url: '/pages/merchant/index',
             });

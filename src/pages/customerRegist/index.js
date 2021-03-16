@@ -49,7 +49,7 @@ class Merchant extends Component {
         }
 
         let res = await this.props.loginStore.addCustomer({
-            userWechatOpenid: this.props.loginStore?.userInfo?.userWechatOpenid,
+            userWechatOpenid: this.props.loginStore?.userInfo?.userWechatOpenid || '',
             userType: 1,
             ...model,
         });

@@ -66,7 +66,7 @@ class Merchant extends Component {
             mask: true,
         });
         let res = await this.props.loginStore.addMerchant({
-            userWechatOpenid: this.props.loginStore?.userInfo?.userWechatOpenid,
+            userWechatOpenid: this.props.loginStore?.userInfo?.userWechatOpenid || '',
             userType: 0,
             ...model,
         });

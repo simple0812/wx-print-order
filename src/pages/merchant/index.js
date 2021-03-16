@@ -60,6 +60,7 @@ class Merchant extends Component {
 
     handleSubmit = async () => {
         const { model } = this.state;
+        const { userInfo } = this.props.loginStore;
         if (!+model.printCount) {
             Taro.showToast({
                 icon: 'none',
@@ -69,7 +70,8 @@ class Merchant extends Component {
         }
 
         let res = await this.props.loginStore.printCode({
-            printCount: model.printCount,
+            printerId: userInfo?.printKey || '',
+            count: model.printCount,
         });
 
         if (res?.success) {
