@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { View, Input, Image, Button } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import { AtSwitch } from 'taro-ui';
 import './index.less';
 
 @inject(store => {
@@ -66,7 +65,6 @@ class Merchant extends Component {
         Taro.showLoading({
             mask: true,
         });
-
         let res = await this.props.loginStore.addMerchant({
             userWechatOpenid: this.props.loginStore?.userInfo?.userWechatOpenid,
             userType: 0,

@@ -2,6 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { View, Image, OpenData, Button } from '@tarojs/components';
 import CommonListLayout from '@/components/ScrollLayout';
+import dateFormat from '@/utils/dateFormat';
 
 
 import './index.less';
@@ -28,25 +29,6 @@ class Index extends React.Component {
         super(...arguments);
         this.state = {
             dataSource: [
-                { id: '1', name: 'text', code: 'xxxxx' },
-                { id: '2', name: 'text', code: 'xxxxx' },
-                { id: '3', name: 'text', code: 'xxxxx' },
-                { id: '4', name: 'text', code: 'xxxxx' },
-                { id: '5', name: 'text', code: 'xxxxx' },
-                { id: '6', name: 'text', code: 'xxxxx' },
-                { id: '7', name: 'text', code: 'xxxxx' },
-                { id: '8', name: 'text', code: 'xxxxx' },
-                { id: '9', name: 'text', code: 'xxxxx' },
-                { id: '10', name: 'text', code: 'xxxxx' },
-                { id: '11', name: 'text', code: 'xxxxx' },
-                { id: '12', name: 'text', code: 'xxxxx' },
-                { id: '13', name: 'text', code: 'xxxxx' },
-                { id: '14', name: 'text', code: 'xxxxx' },
-                { id: '15', name: 'text', code: 'xxxxx' },
-                { id: '16', name: 'text', code: 'xxxxx' },
-                { id: '17', name: 'text', code: 'xxxxx' },
-                { id: '18', name: 'text', code: 'xxxxx' },
-                { id: '19', name: 'text', code: 'xxxxx' },
             ],
             hasMore: true,
             pageNum: 1,
@@ -77,18 +59,22 @@ class Index extends React.Component {
         this.setState({
             loading: true,
         });
+        let now = new Date();
         let res = await this.props.loginStore.getCustomerOrders({
+            start: '2020-01-01 00:00:00',
+            // start: dateFormat('YYYY-mm-dd 00:00:00', now),
+            end: dateFormat('YYYY-mm-dd 23:59:59', now),
             userId: userInfo?.id || '',
             pageNum,
             pageSize,
         });
-        if (res?.success && res?.data?.list?.length) {
+        if (res?.code==200 && res?.result?.list?.length) {
             // 刷新数据
             this.setState({
                 loading: false,
                 hasMore: true,
                 pageNum: pageNum + 1,
-                dataSource: pn == 1 ? [...res.data.list] : [...dataSource, ...res.data.list],
+                dataSource: pn == 1 ? [...res.result.list] : [...dataSource, ...res.result.list],
             });
         } else {
             this.setState({

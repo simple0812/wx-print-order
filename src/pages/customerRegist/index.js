@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { View, Input, Image, Button } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import { AtSwitch } from 'taro-ui';
 import './index.less';
 
 @inject(store => {

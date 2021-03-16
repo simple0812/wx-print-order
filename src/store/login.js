@@ -52,6 +52,15 @@ class LoginStore extends BaseStore {
 
         return res;
     })
+
+    addMerchant = flow(function* genx(params) {
+        let res = yield service.addMerchant(params);
+        if (res?.code === 200) {
+            this.userInfo = res?.result
+        }
+
+        return res;
+    })
 }
 
 export default new LoginStore();

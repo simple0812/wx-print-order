@@ -21,9 +21,12 @@ class LoginService extends BaseService {
         return get(`/orderPrintLog/getOrderDetail/student/${userId}`,  {...rest})
       },
 
-      studentRegist: postFn('/login/studentRegist'),
-      merchantRegist: postFn('/login/merchantRegist'),
-
+      customerStatistic: ({userId, ...rest}) => {
+        return get(`/studentOrderCount/countByDate/${userId}`, {...rest})
+      },
+      merchantStatistic:({userId, ...rest}) => {
+        return get(`/orderPrintLog/countByDate/${userId}`,  {...rest})
+      },
       scanCode: putFn('/orderPrintLog/modify'),
       printCode: ({printerId, count}) => {
         return post(`/waimai/sellerPrinter/print/${printerId}/${count}`)

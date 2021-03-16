@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react';
 import { View, Input, Image, Button } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import SettingItem from '@/components/SettingItem';
+import dateFormat from '@/utils/dateFormat'
 import { AtSwitch } from 'taro-ui';
 import './index.less';
 
@@ -19,7 +20,24 @@ class Merchant extends Component {
             model: {
                 printCount: 1,
             },
+            statistic: {},
         };
+    }
+
+    componentDidMount() {
+        const { userInfo } = this.props.loginStore;
+        let now = new Date();
+        this.props.loginStore.merchantStatistic({
+            start: dateFormat('YYYY-mm-dd 00:00:00', now),
+            end: dateFormat('YYYY-mm-dd 23:59:59', now),
+            userId: userInfo?.id,
+        }).then(res => {
+            if (res?.code ===200) {
+                this.setState({
+                    statistic: res?.result
+                })
+            }
+        });
     }
 
     handleParamsChange = (key, evt) => {
@@ -74,6 +92,7 @@ class Merchant extends Component {
     };
     render() {
         const { userInfo } = this.props.loginStore;
+        const { model, statistic } = this.state;
         return (
             <View className="orderApply">
                 <SettingItem
@@ -90,19 +109,19 @@ class Merchant extends Component {
                 />
                 <SettingItem
                     title="打印机SN"
-                    extraText={model?.realName ?? '未填写'}
+                    extraText={userInfo?.printSn ?? '未填写'}
                     arrow
                     onItemClick={this.navEdit}
                 />
                 <SettingItem
                     title="打印机Key"
-                    extraText={model?.realName ?? '未填写'}
+                    extraText={userInfo?.printKey ?? '未填写'}
                     bottomGap
                     arrow
                     onItemClick={this.navEdit}
                 />
-                <SettingItem title="已接单数" extraText={model?.realName ?? '0'} />
-                <SettingItem title="已打印数" extraText={model?.realName ?? '0'} bottomGap />
+                <SettingItem title="已接单数" extraText={statistic['已派送单数'] || '0'} />
+                <SettingItem title="已打印数" extraText={statistic['总打印单数'] || '0'} bottomGap />
                 <View className="form-container">
                     <Input
                         name="printCount"

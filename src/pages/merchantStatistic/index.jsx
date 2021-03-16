@@ -2,7 +2,7 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { View, Image, OpenData, Button } from '@tarojs/components';
 import CommonListLayout from '@/components/ScrollLayout';
-
+import dateFormat from '@/utils/dateFormat';
 
 import './index.less';
 
@@ -77,18 +77,22 @@ class Index extends React.Component {
         this.setState({
             loading: true,
         });
+        let now = new Date();
         let res = await this.props.loginStore.getMerchantOrders({
+            start: '2020-01-01 00:00:00',
+            // start: dateFormat('YYYY-mm-dd 00:00:00', now),
+            end: dateFormat('YYYY-mm-dd 23:59:59', now),
             userId: userInfo?.id || '',
             pageNum,
             pageSize,
         });
-        if (res?.success && res?.data?.list?.length) {
+        if (res?.code == 200 && res?.result?.list?.length) {
             // 刷新数据
             this.setState({
                 loading: false,
                 hasMore: true,
                 pageNum: pageNum + 1,
-                dataSource: pn == 1 ? [...res.data.list] : [...dataSource, ...res.data.list],
+                dataSource: pn == 1 ? [...res.result.list] : [...dataSource, ...res.result.list],
             });
         } else {
             this.setState({
@@ -99,7 +103,6 @@ class Index extends React.Component {
 
         return res;
     };
-
 
     refreshData = async () => {
         await this.fetchData({ pageNum: 1 });
