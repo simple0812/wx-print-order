@@ -117,7 +117,7 @@ class Index extends React.Component {
                     className="index-page"
                     placeholder="数据为空"
                     emptyImg={require('@/assets/case-empty.png')}
-                    hasData
+                    hasData={!!dataSource?.length}
                     loadState={loading ? 'pending' : 'done'}
                     hasMore={hasMore}
                     onRefresh={this.refreshData}
