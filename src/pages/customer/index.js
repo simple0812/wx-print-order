@@ -61,6 +61,8 @@ class Merchant extends Component {
     };
 
     scanCode = () => {
+        const { userInfo } = this.props.loginStore;
+        let _this = this;
         Taro.scanCode({
             async success(res) {
                 if (res.errMsg !== 'scanCode:ok') {
@@ -72,8 +74,18 @@ class Merchant extends Component {
                 }
 
                 let data = res.result;
-
-                let dRes = await this.props.loginStore.scanCode({ data });
+                try {
+                    data = JSON.parse(data);
+                } catch (e) {
+                    data = {};
+                }
+                let now = new Date();
+                let dRes = await _this.props.loginStore.scanCode({
+                    ...data,
+                    bindStatus: true,
+                    orderPrintTime: dateFormat('YYYY-mm-dd HH:MM:SS', now),
+                    userId: userInfo?.id,
+                });
                 if (dRes?.success) {
                     Taro.showToast({
                         icon: 'none',
@@ -118,11 +130,7 @@ class Merchant extends Component {
                     arrow
                     onItemClick={this.navEdit}
                 />
-                <SettingItem
-                    title="总计单数"
-                    extraText={statistic['总计单数'] || '未填写'}
-                    bottomGap
-                />
+                <SettingItem title="总计单数" extraText={statistic['总计单数'] || '未填写'} bottomGap />
                 <View className="form-container">
                     <View className="btn-apply" onClick={this.scanCode}>
                         扫码
