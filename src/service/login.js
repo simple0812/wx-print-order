@@ -1,4 +1,5 @@
 import BaseService, { getFn, postFn, putFn, deleteFn } from '@/service/BaseService';
+import qs from 'query-string';
 import request from '../utils/request.js';
 
 const { get, post, put } = request;
@@ -27,7 +28,9 @@ class LoginService extends BaseService {
       merchantStatistic:({userId, ...rest}) => {
         return get(`/orderPrintLog/countByDate/${userId}`,  {...rest})
       },
-      scanCode: putFn('/orderPrintLog/modify'),
+      scanCode: (params) => {
+        return put('/orderPrintLog/modify?' + qs.stringify(params || {}))
+      },
       printCode: ({printerId, count}) => {
         return post(`/sellerPrinter/print/${printerId}/${count}`)
       },

@@ -138,6 +138,7 @@ class Merchant extends Component {
         });
         let res = await this.props.loginStore.addPrinter({
             userId: userInfo?.id,
+            userName: userInfo?.userName,
             ...printer,
         });
 
@@ -187,6 +188,7 @@ class Merchant extends Component {
                     onItemClick={this.navEdit}
                 /> */}
                 <View className="form-container">
+                    <View className="input-title">打印机 sn</View>
                     <Input
                         className="zl-input"
                         placeholderClass="zl-input-placeholder"
@@ -196,6 +198,7 @@ class Merchant extends Component {
                         containerStyle={{ border: 'none' }}
                         onInput={this.handlePrinterChange.bind(this, 'printerSn')}
                     />
+                    <View className="input-title">打印机 key</View>
                     <Input
                         name="printerKey"
                         className="zl-input"
@@ -213,6 +216,7 @@ class Merchant extends Component {
                 <SettingItem title="已接单数" extraText={statistic['已派送单数'] || '0'} />
                 <SettingItem title="已打印数" extraText={statistic['总打印单数'] || '0'} bottomGap />
                 <View className="form-container">
+                    <View className="input-title">打印数量</View>
                     <Input
                         name="printCount"
                         className="zl-input"

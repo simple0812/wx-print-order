@@ -80,11 +80,9 @@ class Merchant extends Component {
                 } catch (e) {
                     data = {};
                 }
-                let now = new Date();
                 let dRes = await _this.props.loginStore.scanCode({
                     id: data?.id,
                     bindStatus: true,
-                    bindTime: dateFormat('YYYY-mm-dd HH:MM:SS', now),
                     userId: userInfo?.id,
                 });
                 if (dRes?.code == 200) {
