@@ -46,22 +46,6 @@ class Merchant extends Component {
             return;
         }
 
-        if (!model?.printerKey) {
-            Taro.showToast({
-                icon: 'none',
-                title: '打印机key不能为空',
-            });
-            return;
-        }
-
-        if (!model?.printerSn) {
-            Taro.showToast({
-                icon: 'none',
-                title: '打印机SN码不能为空',
-            });
-            return;
-        }
-
         Taro.showLoading({
             mask: true,
         });
@@ -114,24 +98,7 @@ class Merchant extends Component {
                         containerStyle={{ border: 'none' }}
                         onInput={this.handleParamsChange.bind(this, 'phone')}
                     ></Input>
-                    <Input
-                        name="printerKey"
-                        className="zl-input"
-                        placeholderClass="zl-input-placeholder"
-                        value={model.printerKey || ''}
-                        placeholder="请输入打印机Key"
-                        containerStyle={{ border: 'none' }}
-                        onInput={this.handleParamsChange.bind(this, 'printerKey')}
-                    ></Input>
-                    <Input
-                        className="zl-input"
-                        placeholderClass="zl-input-placeholder"
-                        name="printerSn"
-                        value={model.printerSn || ''}
-                        placeholder="请输入SN码"
-                        containerStyle={{ border: 'none' }}
-                        onInput={this.handleParamsChange.bind(this, 'printerSn')}
-                    />
+                    
 
                     <View className="btn-apply" onClick={this.handleSubmit}>
                         保存

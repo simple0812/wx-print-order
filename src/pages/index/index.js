@@ -133,7 +133,7 @@ class IndexPage extends Component {
                 <Button
                     className="btn-entrance"
                     onClick={() => {
-                        if (isEmpty(userInfo)) {
+                        if (!userInfo?.id) {
                             this.merchantRegist();
                             return;
                         }
@@ -147,7 +147,7 @@ class IndexPage extends Component {
                 <Button
                     className="btn-entrance"
                     onClick={() => {
-                        if (isEmpty(userInfo)) {
+                        if (!userInfo?.id) {
                             this.customerRegist();
                             return;
                         }

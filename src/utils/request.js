@@ -109,7 +109,7 @@ class Remote {
       url: `${this.genDomainForEnv(urlType || 'default')}${url}`,
       method: Remote.METHOD.PUT,
       header: {
-        'content-type': 'application/x-www-form-urlencggoded;charset=UTF-8'
+        'content-type': 'application/json'
       },
     }
     return this.http(options);

@@ -22,7 +22,7 @@ class LoginService extends BaseService {
       },
 
       customerStatistic: ({userId, ...rest}) => {
-        return get(`/studentOrderCount/countByDate/${userId}`, {...rest})
+        return get(`/orderPrintLog/studentOrderCount/countByDate/${userId}`, {...rest})
       },
       merchantStatistic:({userId, ...rest}) => {
         return get(`/orderPrintLog/countByDate/${userId}`,  {...rest})
@@ -31,6 +31,11 @@ class LoginService extends BaseService {
       printCode: ({printerId, count}) => {
         return post(`/sellerPrinter/print/${printerId}/${count}`)
       },
+
+      getPrinterByUserId: ({userId}) => {
+        return get(`/sellerPrinter/getByUserId/${userId}`)
+      },
+      addPrinter: postFn(`/sellerPrinter/addPrinter`)
     });
   }
 }

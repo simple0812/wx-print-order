@@ -74,14 +74,7 @@ export const authorizeEnum = toEnum({
 });
 
 // 拉新活动按钮类型
-export const activityActionTypeEnum = {
-    HELP: 'help',
-    INVITE: 'invite',
-    GET_PRIZE: 'get_prize',
-};
-
-// 拉新活动按钮类型
-export const userTypeEnum = {
+export const userTypeEnum = toEnum({
     CUSTOMER: {
         value: 1,
         label: '客户',
@@ -90,4 +83,4 @@ export const userTypeEnum = {
         value: 0,
         label: '商家',
     },
-};
+});

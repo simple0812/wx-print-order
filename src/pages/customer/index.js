@@ -74,6 +74,7 @@ class Merchant extends Component {
                 }
 
                 let data = res.result;
+                console.log('scan ', data)
                 try {
                     data = JSON.parse(data);
                 } catch (e) {
@@ -81,9 +82,9 @@ class Merchant extends Component {
                 }
                 let now = new Date();
                 let dRes = await _this.props.loginStore.scanCode({
-                    ...data,
+                    id: data?.id,
                     bindStatus: true,
-                    orderPrintTime: dateFormat('YYYY-mm-dd HH:MM:SS', now),
+                    bindTime: dateFormat('YYYY-mm-dd HH:MM:SS', now),
                     userId: userInfo?.id,
                 });
                 if (dRes?.code == 200) {
@@ -130,7 +131,7 @@ class Merchant extends Component {
                     arrow
                     onItemClick={this.navEdit}
                 />
-                <SettingItem title="总计单数" extraText={statistic['总计单数'] || '未填写'} bottomGap />
+                <SettingItem title="总计单数" extraText={statistic['总计单数'] || '0'} bottomGap />
                 <View className="form-container">
                     <View className="btn-apply" onClick={this.scanCode}>
                         扫码

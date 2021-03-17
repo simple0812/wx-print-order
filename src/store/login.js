@@ -27,11 +27,9 @@ class LoginStore extends BaseStore {
         Taro.setStorageSync('wx_login_code', xRes.code);
         let loginRes = yield service.thirdLogin({ code: xRes?.code });
 
-        if (loginRes?.code == 201) {
+        if (loginRes?.code == 201 || loginRes?.code == 200) {
             Taro.setStorageSync('sessionToken', loginRes?.result?.token);
-        } else if (loginRes?.code == 200) {
-            Taro.setStorageSync('sessionToken', loginRes?.result?.token);
-            this.userInfo = loginRes?.result;
+            this.userInfo = loginRes?.result || {};
         } else {
             Taro.setStorageSync('sessionToken', '');
             Taro.showToast({
@@ -46,19 +44,14 @@ class LoginStore extends BaseStore {
 
     addCustomer = flow(function* genx(params) {
         let res = yield service.addCustomer(params);
-        if (res?.code === 200) {
-            this.userInfo = res?.result
-        }
+        this.userInfo = res?.result || {}
 
         return res;
     })
 
     addMerchant = flow(function* genx(params) {
         let res = yield service.addMerchant(params);
-        if (res?.code === 200) {
-            this.userInfo = res?.result
-        }
-
+        this.userInfo = res?.result || {}
         return res;
     })
 }
