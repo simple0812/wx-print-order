@@ -29,8 +29,8 @@ class Merchant extends Component {
 
     componentDidMount() {
         const { userInfo } = this.props.loginStore;
-        
-        this.getStatistic()
+
+        this.getStatistic();
         this.props.loginStore.getPrinterByUserId({ userId: userInfo?.id }).then(res => {
             if (res?.code === 200) {
                 this.setState({
@@ -55,7 +55,7 @@ class Merchant extends Component {
                     });
                 }
             });
-    }
+    };
 
     handleParamsChange = (key, evt) => {
         const { model } = this.state;
@@ -194,26 +194,30 @@ class Merchant extends Component {
                     onItemClick={this.navEdit}
                 /> */}
                 <View className="form-container">
-                    <View className="input-title">打印机 sn</View>
-                    <Input
-                        className="zl-input"
-                        placeholderClass="zl-input-placeholder"
-                        name="printerSn"
-                        value={printer.printerSn || ''}
-                        placeholder="请输入SN码"
-                        containerStyle={{ border: 'none' }}
-                        onInput={this.handlePrinterChange.bind(this, 'printerSn')}
-                    />
-                    <View className="input-title">打印机 key</View>
-                    <Input
-                        name="printerKey"
-                        className="zl-input"
-                        placeholderClass="zl-input-placeholder"
-                        value={printer.printerKey || ''}
-                        placeholder="请输入打印机Key"
-                        containerStyle={{ border: 'none' }}
-                        onInput={this.handlePrinterChange.bind(this, 'printerKey')}
-                    ></Input>
+                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%' }}>
+                        <View className="input-title">打印机 sn</View>
+                        <Input
+                            className="zl-input"
+                            placeholderClass="zl-input-placeholder"
+                            name="printerSn"
+                            value={printer.printerSn || ''}
+                            placeholder="请输入SN码"
+                            containerStyle={{ border: 'none' }}
+                            onInput={this.handlePrinterChange.bind(this, 'printerSn')}
+                        />
+                    </View>
+                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%' }}>
+                        <View className="input-title">打印机 key</View>
+                        <Input
+                            name="printerKey"
+                            className="zl-input"
+                            placeholderClass="zl-input-placeholder"
+                            value={printer.printerKey || ''}
+                            placeholder="请输入打印机Key"
+                            containerStyle={{ border: 'none' }}
+                            onInput={this.handlePrinterChange.bind(this, 'printerKey')}
+                        ></Input>
+                    </View>
                     <View className="btn-apply" onClick={this.handleAddPrinter}>
                         添加打印机
                     </View>
@@ -223,9 +227,12 @@ class Merchant extends Component {
                         current={this.state.dateType}
                         tabList={dateTypes}
                         onClick={curr => {
-                            this.setState({
-                                dateType: curr,
-                            }, this.getStatistic);
+                            this.setState(
+                                {
+                                    dateType: curr,
+                                },
+                                this.getStatistic,
+                            );
                         }}
                     />
                 </View>
@@ -233,17 +240,18 @@ class Merchant extends Component {
                 <SettingItem title="已接单数" extraText={statistic['已派送单数'] || '0'} />
                 <SettingItem title="已打印数" extraText={statistic['总打印单数'] || '0'} bottomGap />
                 <View className="form-container">
-                    <View className="input-title">打印数量</View>
-                    <Input
-                        name="printCount"
-                        className="zl-input"
-                        placeholderClass="zl-input-placeholder"
-                        value={model.printCount || ''}
-                        placeholder="请输入打印数量"
-                        containerStyle={{ border: 'none' }}
-                        onInput={this.handleParamsChange.bind(this, 'printCount')}
-                    ></Input>
-
+                    <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: '100%' }}>
+                        <View className="input-title">打印数量</View>
+                        <Input
+                            name="printCount"
+                            className="zl-input"
+                            placeholderClass="zl-input-placeholder"
+                            value={model.printCount || ''}
+                            placeholder="请输入打印数量"
+                            containerStyle={{ border: 'none' }}
+                            onInput={this.handleParamsChange.bind(this, 'printCount')}
+                        ></Input>
+                    </View>
                     <View className="btn-apply" onClick={this.handleSubmit}>
                         打印
                     </View>

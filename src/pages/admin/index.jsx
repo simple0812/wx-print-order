@@ -46,7 +46,7 @@ class Admin extends React.Component {
         this.fetchData({ pageNum: 1 });
     };
 
-    fetchData = async ({ pageNum: pn }) => {
+    fetchData = async ({ pageNum: pn }={}) => {
         let { pageNum, pageSize, dataSource, dateType, userType } = this.state;
         if (pn) {
             pageNum = pn;
@@ -67,7 +67,7 @@ class Admin extends React.Component {
             // 刷新数据
             this.setState({
                 loading: false,
-                hasMore: true,
+                hasMore: res?.result?.list?.length === pageSize,
                 total: res?.result?.total || 0,
                 pageNum: pageNum + 1,
                 dataSource: pn == 1 ? [...res.result.list] : [...dataSource, ...res.result.list],
@@ -93,13 +93,15 @@ class Admin extends React.Component {
     handlNav = user => {
         const { userType } = this.state;
 
+        console.log('zzzzzzzz', userType, user)
+
         if (userType == 0) {
             Taro.navigateTo({
-                url: '/pages/merchantStatistic?userId=' + user.userId,
+                url: '/pages/merchantStatistic/index?userId=' + user.userId,
             });
         } else {
             Taro.navigateTo({
-                url: '/pages/customerStatistic?userId=' + user.userId,
+                url: '/pages/customerStatistic/index?userId=' + user.userId,
             });
         }
     };
@@ -118,7 +120,7 @@ class Admin extends React.Component {
                     onRefresh={this.refreshData}
                     onEndReached={this.loadMore}
                     renderHeader={() => (
-                        <View className="page-header">
+                        <View className="page-headerx">
                             <View>
                                 <AtTabs
                                     current={this.state.userType}
@@ -151,7 +153,7 @@ class Admin extends React.Component {
                                     }}
                                 />
                             </View>
-                            <View>总计:{this.state.total}</View>
+                            <View className="total-container">总计:{this.state.total}</View>
                             {userType == 0 ? (
                                 <View className="t-head">
                                     <View className="t-cell">商家编号</View>
@@ -170,7 +172,7 @@ class Admin extends React.Component {
                 >
                     <View className="t-body">
                         {(dataSource || []).map(each => (
-                            <View className="t-row" key={each.userId} onClick={this.handlNav.bind(each)}>
+                            <View className="t-row" key={each.userId} onClick={this.handlNav.bind(this, each)}>
                                 <View className="t-cell">{each.userId}</View>
                                 <View className="t-cell">{each.userName}</View>
                                 <View className="t-cell">{each.countNum}</View>

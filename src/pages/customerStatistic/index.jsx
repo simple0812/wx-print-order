@@ -29,6 +29,7 @@ class Index extends React.Component {
     constructor() {
         super(...arguments);
         let {userId} = Taro.getCurrentInstance().router.params;
+
         this.state = {
             userId,
             dateType: 0,
@@ -53,7 +54,7 @@ class Index extends React.Component {
         this.fetchData({ pageNum: 1 });
     };
 
-    fetchData = async ({ pageNum: pn }) => {
+    fetchData = async ({ pageNum: pn }={}) => {
         let { pageNum, pageSize, dataSource, dateType, userId } = this.state;
         if (pn) {
             pageNum = pn;
@@ -71,7 +72,7 @@ class Index extends React.Component {
             // 刷新数据
             this.setState({
                 loading: false,
-                hasMore: true,
+                hasMore: res?.result?.list?.length === pageSize,
                 pageNum: pageNum + 1,
                 total: res?.result?.total || 0,
                 dataSource: pn == 1 ? [...res.result.list] : [...dataSource, ...res.result.list],
@@ -108,7 +109,7 @@ class Index extends React.Component {
                     onRefresh={this.refreshData}
                     onEndReached={this.loadMore}
                     renderHeader={() => (
-                        <View className="page-header">
+                        <View className="page-headerx">
                             <View>
                                 <AtTabs
                                     current={this.state.dateType}
@@ -125,7 +126,7 @@ class Index extends React.Component {
                                     }}
                                 />
                             </View>
-                            <View>总计:{this.state.total}</View>
+                            <View className="total-container">总计:{this.state.total}</View>
                             <View className="t-head">
                                 <View className="t-cell">商家编号</View>
                                 <View className="t-cell">商家名称</View>
