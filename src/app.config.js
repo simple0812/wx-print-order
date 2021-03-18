@@ -1,5 +1,6 @@
 let allPages = [
     'pages/index/index',
+    'pages/admin/index',
     'pages/customer/index',
     'pages/merchant/index',
     'pages/customerRegist/index',

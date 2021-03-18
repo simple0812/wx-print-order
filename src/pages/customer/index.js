@@ -128,7 +128,7 @@ class Merchant extends Component {
                 />
                 <SettingItem
                     title="学号"
-                    extraText={userInfo?.code ?? '未填写'}
+                    extraText={userInfo?.studentNum ?? '未填写'}
                     bottomGap
                     arrow
                     onItemClick={this.navEdit}
@@ -156,7 +156,7 @@ class Merchant extends Component {
                         className="btn-detail"
                         onClick={() => {
                             Taro.navigateTo({
-                                url: '/pages/customerStatistic/index',
+                                url: '/pages/customerStatistic/index?userId=' + userInfo?.id,
                             });
                         }}
                     >

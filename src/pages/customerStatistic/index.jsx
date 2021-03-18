@@ -4,6 +4,7 @@ import { View, Image, OpenData, Button } from '@tarojs/components';
 import CommonListLayout from '@/components/ScrollLayout';
 import { getRangeTimeByType, dateTypes } from '@/utils/dateFormat';
 import { AtTabs } from 'taro-ui';
+import Taro from '@tarojs/taro';
 
 import './index.less';
 
@@ -27,7 +28,9 @@ class Index extends React.Component {
 
     constructor() {
         super(...arguments);
+        let {userId} = Taro.getCurrentInstance().router.params;
         this.state = {
+            userId,
             dateType: 0,
             dataSource: [],
             hasMore: true,
@@ -51,8 +54,7 @@ class Index extends React.Component {
     };
 
     fetchData = async ({ pageNum: pn }) => {
-        const { userInfo } = this.props.loginStore;
-        let { pageNum, pageSize, dataSource, dateType } = this.state;
+        let { pageNum, pageSize, dataSource, dateType, userId } = this.state;
         if (pn) {
             pageNum = pn;
         }
@@ -61,7 +63,7 @@ class Index extends React.Component {
         });
         let res = await this.props.loginStore.getCustomerOrders({
             ...getRangeTimeByType(dateTypes[dateType].type),
-            userId: userInfo?.id || '',
+            userId,
             pageNum,
             pageSize,
         });

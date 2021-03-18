@@ -139,8 +139,8 @@ class IndexPage extends Component {
                         if (userInfo?.userType == userTypeEnum.CUSTOMER) {
                             Taro.showToast({
                                 icon: 'none',
-                                title: '您是学生，请从学生入口进入'
-                            })
+                                title: '您是学生，请从学生入口进入',
+                            });
                             return;
                         }
                         Taro.navigateTo({
@@ -161,8 +161,8 @@ class IndexPage extends Component {
                         if (userInfo?.userType == userTypeEnum.MERCHANT) {
                             Taro.showToast({
                                 icon: 'none',
-                                title: '您是商家，请从商家入口进入'
-                            })
+                                title: '您是商家，请从商家入口进入',
+                            });
                             return;
                         }
 
@@ -173,6 +173,19 @@ class IndexPage extends Component {
                 >
                     学生入口
                 </Button>
+                {userInfo?.userType !== 3 && (
+                    <Button
+                        className="btn-entrance"
+                        onClick={() => {
+
+                            Taro.navigateTo({
+                                url: '/pages/admin/index',
+                            });
+                        }}
+                    >
+                        管理员入口
+                    </Button>
+                )}
             </View>
         );
     }

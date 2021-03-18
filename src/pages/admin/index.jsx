@@ -1,18 +1,12 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { View, Image, OpenData, Button } from '@tarojs/components';
+import Taro from '@tarojs/taro';
 import CommonListLayout from '@/components/ScrollLayout';
 import { getRangeTimeByType, dateTypes } from '@/utils/dateFormat';
 import { AtTabs } from 'taro-ui';
-import Taro from '@tarojs/taro';
 
 import './index.less';
-
-function formatNumber(num) {
-    if (!+num || +num < 10000) return num;
-
-    return (num / 10000).toFixed(2) + 'w';
-}
 
 @inject(store => {
     return {
@@ -20,7 +14,7 @@ function formatNumber(num) {
     };
 })
 @observer
-class Index extends React.Component {
+class Admin extends React.Component {
     // 这里必须用写个static同名函数 要不分享不显示定义的标题等参数
     static onShareAppMessage() {
         return {};
@@ -28,9 +22,8 @@ class Index extends React.Component {
 
     constructor() {
         super(...arguments);
-        let { userId } = Taro.getCurrentInstance().router.params;
         this.state = {
-            userId,
+            userType: 0,
             dateType: 0,
             dataSource: [],
             hasMore: true,
@@ -54,17 +47,19 @@ class Index extends React.Component {
     };
 
     fetchData = async ({ pageNum: pn }) => {
-        let { pageNum, pageSize, dataSource, dateType, userId } = this.state;
+        let { pageNum, pageSize, dataSource, dateType, userType } = this.state;
         if (pn) {
             pageNum = pn;
         }
         this.setState({
             loading: true,
         });
-        let res = await this.props.loginStore.getMerchantOrders({
+        let promise = this.props.loginStore.getMerchantList;
+        if (userType == 1) {
+            promise = this.props.loginStore.getCustomerList;
+        }
+        let res = await promise({
             ...getRangeTimeByType(dateTypes[dateType].type),
-
-            userId,
             pageNum,
             pageSize,
         });
@@ -94,8 +89,22 @@ class Index extends React.Component {
         await this.fetchData();
     };
 
+    handlNav = user => {
+        const { userType } = this.state;
+
+        if (userType == 0) {
+            Taro.navigateTo({
+                url: '/pages/merchantStatistic?userId=' + user.userId,
+            });
+        } else {
+            Taro.navigateTo({
+                url: '/pages/customerStatistic?userId=' + user.userId,
+            });
+        }
+    };
+
     render() {
-        const { loading, hasMore, dataSource } = this.state;
+        const { loading, hasMore, dataSource, userType } = this.state;
         return (
             <>
                 <CommonListLayout
@@ -111,6 +120,20 @@ class Index extends React.Component {
                         <View className="page-header">
                             <View>
                                 <AtTabs
+                                    current={this.state.userType}
+                                    tabList={[{ title: '商户' }, { title: '学生' }]}
+                                    onClick={curr => {
+                                        this.setState({
+                                            userType: curr,
+                                        },
+                                        () => {
+                                            this.fetchData({ pageNum: 1 });
+                                        });
+                                    }}
+                                />
+                            </View>
+                            <View>
+                                <AtTabs
                                     current={this.state.dateType}
                                     tabList={dateTypes}
                                     onClick={curr => {
@@ -120,27 +143,34 @@ class Index extends React.Component {
                                             },
                                             () => {
                                                 this.fetchData({ pageNum: 1 });
-                                            },
+                                            }
                                         );
                                     }}
                                 />
                             </View>
-                            <View className="t-head">
-                                <View className="t-cell">学生编号</View>
-                                <View className="t-cell">学生名称</View>
-                                <View className="t-cell">打印编码</View>
-                                <View className="t-cell">派送时间</View>
-                            </View>
                         </View>
                     )}
                 >
+                    {userType == 0 ? (
+                        <View className="t-head">
+                            <View className="t-cell">商家编号</View>
+                            <View className="t-cell">商家名称</View>
+                            <View className="t-cell">派单数</View>
+                        </View>
+                    ) : (
+                        <View className="t-head">
+                            <View className="t-cell">学生编号</View>
+                            <View className="t-cell">学生名称</View>
+                            <View className="t-cell">接单数</View>
+                        </View>
+                    )}
+
                     <View className="t-body">
                         {(dataSource || []).map(each => (
-                            <View className="t-row" key={each.id}>
-                                <View className="t-cell">{each.studentId}</View>
-                                <View className="t-cell">{each.studentName}</View>
-                                <View className="t-cell">{each.orderNum}</View>
-                                <View className="t-cell">{each.bindTime}</View>
+                            <View className="t-row" key={each.userId} onClick={this.handlNav.bind(each)}>
+                                <View className="t-cell">{each.userId}</View>
+                                <View className="t-cell">{each.userName}</View>
+                                <View className="t-cell">{each.countNum}</View>
                             </View>
                         ))}
                     </View>
@@ -150,4 +180,4 @@ class Index extends React.Component {
     }
 }
 
-export default Index;
+export default Admin;

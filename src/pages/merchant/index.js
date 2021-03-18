@@ -251,7 +251,7 @@ class Merchant extends Component {
                         className="btn-detail"
                         onClick={() => {
                             Taro.navigateTo({
-                                url: '/pages/merchantStatistic/index',
+                                url: '/pages/merchantStatistic/index?userId=' + userInfo?.id,
                             });
                         }}
                     >

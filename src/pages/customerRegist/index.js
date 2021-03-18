@@ -98,13 +98,13 @@ class Merchant extends Component {
                         onInput={this.handleParamsChange.bind(this, 'phone')}
                     ></Input>
                     <Input
-                        name="code"
+                        name="studentNum"
                         className="zl-input"
                         placeholderClass="zl-input-placeholder"
-                        value={model.code || ''}
+                        value={model.studentNum || ''}
                         placeholder="请输入学号"
                         containerStyle={{ border: 'none' }}
-                        onInput={this.handleParamsChange.bind(this, 'code')}
+                        onInput={this.handleParamsChange.bind(this, 'studentNum')}
                     ></Input>
 
                     <View className="btn-apply" onClick={this.handleSubmit}>

@@ -38,7 +38,10 @@ class LoginService extends BaseService {
       getPrinterByUserId: ({userId}) => {
         return get(`/sellerPrinter/getByUserId/${userId}`)
       },
-      addPrinter: postFn(`/sellerPrinter/addPrinter`)
+      addPrinter: postFn(`/sellerPrinter/addPrinter`),
+
+      getMerchantList: '/orderPrintLog/countAllSellerByDateRange',
+      getCustomerList: '/orderPrintLog/countAllStudentByDateRange'
     });
   }
 }
