@@ -73,6 +73,7 @@ class Index extends React.Component {
                 loading: false,
                 hasMore: true,
                 pageNum: pageNum + 1,
+                total: res?.result?.total || 0,
                 dataSource: pn == 1 ? [...res.result.list] : [...dataSource, ...res.result.list],
             });
         } else {
@@ -124,6 +125,7 @@ class Index extends React.Component {
                                     }}
                                 />
                             </View>
+                            <View>总计:{this.state.total}</View>
                             <View className="t-head">
                                 <View className="t-cell">商家编号</View>
                                 <View className="t-cell">商家名称</View>

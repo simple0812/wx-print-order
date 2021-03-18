@@ -68,6 +68,7 @@ class Admin extends React.Component {
             this.setState({
                 loading: false,
                 hasMore: true,
+                total: res?.result?.total || 0,
                 pageNum: pageNum + 1,
                 dataSource: pn == 1 ? [...res.result.list] : [...dataSource, ...res.result.list],
             });
@@ -123,12 +124,14 @@ class Admin extends React.Component {
                                     current={this.state.userType}
                                     tabList={[{ title: '商户' }, { title: '学生' }]}
                                     onClick={curr => {
-                                        this.setState({
-                                            userType: curr,
-                                        },
-                                        () => {
-                                            this.fetchData({ pageNum: 1 });
-                                        });
+                                        this.setState(
+                                            {
+                                                userType: curr,
+                                            },
+                                            () => {
+                                                this.fetchData({ pageNum: 1 });
+                                            },
+                                        );
                                     }}
                                 />
                             </View>
@@ -143,28 +146,28 @@ class Admin extends React.Component {
                                             },
                                             () => {
                                                 this.fetchData({ pageNum: 1 });
-                                            }
+                                            },
                                         );
                                     }}
                                 />
                             </View>
+                            <View>总计:{this.state.total}</View>
+                            {userType == 0 ? (
+                                <View className="t-head">
+                                    <View className="t-cell">商家编号</View>
+                                    <View className="t-cell">商家名称</View>
+                                    <View className="t-cell">派单数</View>
+                                </View>
+                            ) : (
+                                <View className="t-head">
+                                    <View className="t-cell">学生编号</View>
+                                    <View className="t-cell">学生名称</View>
+                                    <View className="t-cell">接单数</View>
+                                </View>
+                            )}
                         </View>
                     )}
                 >
-                    {userType == 0 ? (
-                        <View className="t-head">
-                            <View className="t-cell">商家编号</View>
-                            <View className="t-cell">商家名称</View>
-                            <View className="t-cell">派单数</View>
-                        </View>
-                    ) : (
-                        <View className="t-head">
-                            <View className="t-cell">学生编号</View>
-                            <View className="t-cell">学生名称</View>
-                            <View className="t-cell">接单数</View>
-                        </View>
-                    )}
-
                     <View className="t-body">
                         {(dataSource || []).map(each => (
                             <View className="t-row" key={each.userId} onClick={this.handlNav.bind(each)}>
