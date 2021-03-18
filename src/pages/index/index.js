@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import isEmpty from 'lodash/isEmpty';
 import { inject, observer } from 'mobx-react';
 import taroFnToPromise from '@/utils/taroFnToPromise';
 import { userTypeEnum } from '@/utils/systemEnum';
@@ -137,6 +136,13 @@ class IndexPage extends Component {
                             this.merchantRegist();
                             return;
                         }
+                        if (userInfo?.userType == userTypeEnum.CUSTOMER) {
+                            Taro.showToast({
+                                icon: 'none',
+                                title: '您是学生，请从学生入口进入'
+                            })
+                            return;
+                        }
                         Taro.navigateTo({
                             url: '/pages/merchant/index',
                         });
@@ -149,6 +155,14 @@ class IndexPage extends Component {
                     onClick={() => {
                         if (!userInfo?.id) {
                             this.customerRegist();
+                            return;
+                        }
+
+                        if (userInfo?.userType == userTypeEnum.MERCHANT) {
+                            Taro.showToast({
+                                icon: 'none',
+                                title: '您是商家，请从商家入口进入'
+                            })
                             return;
                         }
 

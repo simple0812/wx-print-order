@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { View, Input, Image, Button } from '@tarojs/components';
+import { AtTabs, AtTabsPane } from 'taro-ui';
 import Taro from '@tarojs/taro';
 import SettingItem from '@/components/SettingItem';
-import dateFormat from '@/utils/dateFormat';
-import { AtSwitch } from 'taro-ui';
+import dateFormat, { getRangeTimeByType, dateTypes } from '@/utils/dateFormat';
+
 import './index.less';
 
 @inject(store => {
@@ -17,6 +18,7 @@ class Merchant extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            dateType: 0,
             model: {
                 printCount: 1,
             },
@@ -27,11 +29,23 @@ class Merchant extends Component {
 
     componentDidMount() {
         const { userInfo } = this.props.loginStore;
-        let now = new Date();
+        
+        this.getStatistic()
+        this.props.loginStore.getPrinterByUserId({ userId: userInfo?.id }).then(res => {
+            if (res?.code === 200) {
+                this.setState({
+                    printer: res?.result,
+                });
+            }
+        });
+    }
+
+    getStatistic = () => {
+        const { userInfo } = this.props.loginStore;
+        const { dateType } = this.state;
         this.props.loginStore
             .merchantStatistic({
-                start: dateFormat('YYYY-mm-dd 00:00:00', now),
-                end: dateFormat('YYYY-mm-dd 23:59:59', now),
+                ...getRangeTimeByType(dateTypes[dateType].type),
                 userId: userInfo?.id,
             })
             .then(res => {
@@ -41,14 +55,6 @@ class Merchant extends Component {
                     });
                 }
             });
-
-        this.props.loginStore.getPrinterByUserId({ userId: userInfo?.id }).then(res => {
-            if (res?.code === 200) {
-                this.setState({
-                    printer: res?.result,
-                });
-            }
-        });
     }
 
     handleParamsChange = (key, evt) => {
@@ -211,6 +217,17 @@ class Merchant extends Component {
                     <View className="btn-apply" onClick={this.handleAddPrinter}>
                         添加打印机
                     </View>
+                </View>
+                <View>
+                    <AtTabs
+                        current={this.state.dateType}
+                        tabList={dateTypes}
+                        onClick={curr => {
+                            this.setState({
+                                dateType: curr,
+                            }, this.getStatistic);
+                        }}
+                    />
                 </View>
 
                 <SettingItem title="已接单数" extraText={statistic['已派送单数'] || '0'} />

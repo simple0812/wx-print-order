@@ -2,7 +2,8 @@ import React from 'react';
 import { inject, observer } from 'mobx-react';
 import { View, Image, OpenData, Button } from '@tarojs/components';
 import CommonListLayout from '@/components/ScrollLayout';
-import dateFormat from '@/utils/dateFormat';
+import { getRangeTimeByType, dateTypes } from '@/utils/dateFormat';
+import { AtTabs } from 'taro-ui';
 
 import './index.less';
 
@@ -27,8 +28,8 @@ class Index extends React.Component {
     constructor() {
         super(...arguments);
         this.state = {
-            dataSource: [
-            ],
+            dateType: 0,
+            dataSource: [],
             hasMore: true,
             pageNum: 1,
             pageSize: 20,
@@ -51,18 +52,16 @@ class Index extends React.Component {
 
     fetchData = async ({ pageNum: pn }) => {
         const { userInfo } = this.props.loginStore;
-        let { pageNum, pageSize, dataSource } = this.state;
+        let { pageNum, pageSize, dataSource, dateType } = this.state;
         if (pn) {
             pageNum = pn;
         }
         this.setState({
             loading: true,
         });
-        let now = new Date();
         let res = await this.props.loginStore.getMerchantOrders({
-            start: '2020-01-01 00:00:00',
-            // start: dateFormat('YYYY-mm-dd 00:00:00', now),
-            end: dateFormat('YYYY-mm-dd 23:59:59', now),
+            ...getRangeTimeByType(dateTypes[dateType].type),
+
             userId: userInfo?.id || '',
             pageNum,
             pageSize,
@@ -98,7 +97,7 @@ class Index extends React.Component {
         return (
             <>
                 <CommonListLayout
-                    className="index-page"
+                    className="merchant-s-page"
                     placeholder="数据为空"
                     emptyImg={require('@/assets/case-empty.png')}
                     hasData={!!dataSource?.length}
@@ -106,20 +105,40 @@ class Index extends React.Component {
                     hasMore={hasMore}
                     onRefresh={this.refreshData}
                     onEndReached={this.loadMore}
+                    renderHeader={() => (
+                        <View className="page-header">
+                            <View>
+                                <AtTabs
+                                    current={this.state.dateType}
+                                    tabList={dateTypes}
+                                    onClick={curr => {
+                                        this.setState(
+                                            {
+                                                dateType: curr,
+                                            },
+                                            () => {
+                                                this.fetchData({ pageNum: 1 });
+                                            },
+                                        );
+                                    }}
+                                />
+                            </View>
+                            <View className="t-head">
+                                <View className="t-cell">学生编号</View>
+                                <View className="t-cell">学生名称</View>
+                                <View className="t-cell">打印编码</View>
+                                <View className="t-cell">派送时间</View>
+                            </View>
+                        </View>
+                    )}
                 >
-                    <View className="t-head">
-                        <View className="t-cell">学生编号</View>
-                        <View className="t-cell">学生名称</View>
-                        <View className="t-cell">打印编码</View>
-                        <View className="t-cell">打印时间</View>
-                    </View>
                     <View className="t-body">
                         {(dataSource || []).map(each => (
                             <View className="t-row" key={each.id}>
                                 <View className="t-cell">{each.studentId}</View>
                                 <View className="t-cell">{each.studentName}</View>
                                 <View className="t-cell">{each.orderNum}</View>
-                                <View className="t-cell">{each.orderPrintTime}</View>
+                                <View className="t-cell">{each.bindTime}</View>
                             </View>
                         ))}
                     </View>

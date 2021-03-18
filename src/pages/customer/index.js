@@ -3,8 +3,8 @@ import { inject, observer } from 'mobx-react';
 import { View, Input, Image, Button } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import SettingItem from '@/components/SettingItem';
-import dateFormat from '@/utils/dateFormat';
-import { AtSwitch } from 'taro-ui';
+import { AtTabs } from 'taro-ui';
+import { getRangeTimeByType, dateTypes } from '@/utils/dateFormat';
 import './index.less';
 
 @inject(store => {
@@ -17,6 +17,7 @@ class Merchant extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            dateType: 0,
             model: {
                 printCount: 1,
             },
@@ -25,12 +26,15 @@ class Merchant extends Component {
     }
 
     componentDidMount() {
+        this.getStatistic();
+    }
+
+    getStatistic = () => {
         const { userInfo } = this.props.loginStore;
-        let now = new Date();
+        const { dateType } = this.state;
         this.props.loginStore
             .customerStatistic({
-                start: dateFormat('YYYY-mm-dd 00:00:00', now),
-                end: dateFormat('YYYY-mm-dd 23:59:59', now),
+                ...getRangeTimeByType(dateTypes[dateType].type),
                 userId: userInfo?.id,
             })
             .then(res => {
@@ -40,7 +44,7 @@ class Merchant extends Component {
                     });
                 }
             });
-    }
+    };
 
     handleParamsChange = (key, evt) => {
         const { model } = this.state;
@@ -74,7 +78,7 @@ class Merchant extends Component {
                 }
 
                 let data = res.result;
-                console.log('scan ', data)
+                console.log('scan ', data);
                 try {
                     data = JSON.parse(data);
                 } catch (e) {
@@ -129,6 +133,20 @@ class Merchant extends Component {
                     arrow
                     onItemClick={this.navEdit}
                 />
+                <View>
+                    <AtTabs
+                        current={this.state.dateType}
+                        tabList={dateTypes}
+                        onClick={curr => {
+                            this.setState(
+                                {
+                                    dateType: curr,
+                                },
+                                this.getStatistic,
+                            );
+                        }}
+                    />
+                </View>
                 <SettingItem title="总计单数" extraText={statistic['总计单数'] || '0'} bottomGap />
                 <View className="form-container">
                     <View className="btn-apply" onClick={this.scanCode}>
