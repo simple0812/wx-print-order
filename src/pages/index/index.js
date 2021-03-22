@@ -173,7 +173,7 @@ class IndexPage extends Component {
                 >
                     学生入口
                 </Button>
-                {userInfo?.userType !== 3 && (
+                {userInfo?.userType == 3 && (
                     <Button
                         className="btn-entrance"
                         onClick={() => {

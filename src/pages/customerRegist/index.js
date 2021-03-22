@@ -15,7 +15,9 @@ class Merchant extends Component {
         super(props);
         this.state = {
             model: {
-                userName: props.loginStore?.userInfo?.userName
+                userName: props.loginStore?.userInfo?.userName,
+                phone: props.loginStore?.userInfo?.phone,
+                studentNum: props.loginStore?.userInfo?.studentNum,
             },
         };
     }
@@ -40,6 +42,7 @@ class Merchant extends Component {
 
     handleSubmit = async () => {
         const { model } = this.state;
+        const { userInfo } = this.props.loginStore;
         if (!model?.userName) {
             Taro.showToast({
                 icon: 'none',
@@ -47,11 +50,23 @@ class Merchant extends Component {
             });
             return;
         }
-
-        let res = await this.props.loginStore.addCustomer({
+        
+        Taro.showLoading({
+            mask: true,
+        });
+        let params = {
             userWechatOpenid: this.props.loginStore?.userInfo?.userWechatOpenid || '',
             userType: 1,
             ...model,
+        }
+
+        let promise = this.props.loginStore.addCustomer;
+        if (userInfo?.id) {
+            params.id = userInfo.id;
+            promise = this.props.loginStore.modifyUser
+        }
+        let res = await promise({
+           ...params
         });
 
         Taro.hideLoading();

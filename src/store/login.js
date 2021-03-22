@@ -49,11 +49,24 @@ class LoginStore extends BaseStore {
         return res;
     })
 
+    modifyUser = flow(function* gen(params) {
+        let res = yield service.modifyUser(params);
+        this.userInfo = res?.result || {}
+
+        return res;
+    }).bind(this)
+
     addMerchant = flow(function* genx(params) {
         let res = yield service.addMerchant(params);
         this.userInfo = res?.result || {}
         return res;
     })
+
+    modifyMerchant = flow(function* genx(params) {
+        let res = yield service.modifyMerchant(params);
+        this.userInfo = res?.result || {}
+        return res;
+    }).bind(this)
 }
 
 export default new LoginStore();

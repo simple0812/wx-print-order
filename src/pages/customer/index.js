@@ -105,9 +105,9 @@ class Merchant extends Component {
     };
 
     navEdit = () => {
-        // Taro.navigateTo({
-        //     url: '/pages/customerRegist/index'
-        // })
+        Taro.navigateTo({
+            url: '/pages/customerRegist/index'
+        })
     };
     render() {
         const { userInfo } = this.props.loginStore;
