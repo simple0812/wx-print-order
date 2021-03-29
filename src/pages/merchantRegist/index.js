@@ -64,7 +64,7 @@ class Merchant extends Component {
             promise = this.props.loginStore.modifyMerchant;
         }
         let res = await promise({
-            ...promise
+            ...params
         });
 
         Taro.hideLoading();

@@ -39,7 +39,7 @@ class LoginStore extends BaseStore {
         }
 
         return loginRes;
-    });
+    }).bind(this);
 
 
     addCustomer = flow(function* genx(params) {
@@ -47,11 +47,13 @@ class LoginStore extends BaseStore {
         this.userInfo = res?.result || {}
 
         return res;
-    })
+    }).bind(this)
 
     modifyUser = flow(function* gen(params) {
         let res = yield service.modifyUser(params);
-        this.userInfo = res?.result || {}
+        if (res?.success) {
+            this.userInfo = res?.result || {}
+        }
 
         return res;
     }).bind(this)
@@ -60,7 +62,7 @@ class LoginStore extends BaseStore {
         let res = yield service.addMerchant(params);
         this.userInfo = res?.result || {}
         return res;
-    })
+    }).bind(this)
 
     modifyMerchant = flow(function* genx(params) {
         let res = yield service.modifyMerchant(params);

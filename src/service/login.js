@@ -12,7 +12,7 @@ class LoginService extends BaseService {
         return get(`/wechat/login/${code}`)
       },
       addMerchant: postFn('/user/addSeller'),
-      modifyMerchant: postFn('/user/modify'),
+      modifyMerchant: putFn('/user/modify'),
       addCustomer: postFn('/user/addStudent'),
       modifyUser: putFn('/user/modify'),
 

@@ -114,9 +114,9 @@ class Merchant extends Component {
     };
 
     navEdit = () => {
-        // Taro.navigateTo({
-        //     url: '/pages/merchantRegist/index',
-        // });
+        Taro.navigateTo({
+            url: '/pages/merchantRegist/index',
+        });
     };
 
     handleAddPrinter = async () => {
