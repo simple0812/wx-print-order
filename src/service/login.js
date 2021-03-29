@@ -12,7 +12,7 @@ class LoginService extends BaseService {
         return get(`/wechat/login/${code}`)
       },
       addMerchant: postFn('/user/addSeller'),
-      modifyMerchant: postFn('/user/modifySeller'),
+      modifyMerchant: postFn('/user/modify'),
       addCustomer: postFn('/user/addStudent'),
       modifyUser: putFn('/user/modify'),
 
@@ -42,7 +42,9 @@ class LoginService extends BaseService {
       addPrinter: postFn(`/sellerPrinter/addPrinter`),
 
       getMerchantList: '/orderPrintLog/countAllSellerByDateRange',
-      getCustomerList: '/orderPrintLog/countAllStudentByDateRange'
+      getCustomerList: '/orderPrintLog/countAllStudentByDateRange',
+
+      exportData: '/poi/createExecl'
     });
   }
 }

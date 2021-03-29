@@ -1,6 +1,6 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { View, Image, OpenData, Button } from '@tarojs/components';
+import { View, Image, OpenData, Picker, Button } from '@tarojs/components';
 import CommonListLayout from '@/components/ScrollLayout';
 import { getRangeTimeByType, dateTypes } from '@/utils/dateFormat';
 import { AtTabs } from 'taro-ui';
@@ -53,17 +53,24 @@ class Index extends React.Component {
         this.fetchData({ pageNum: 1 });
     };
 
-    fetchData = async ({ pageNum: pn }={}) => {
-        let { pageNum, pageSize, dataSource, dateType, userId } = this.state;
+    fetchData = async ({ pageNum: pn } = {}) => {
+        let { pageNum, pageSize, dataSource, dateType, userId, startTime, endTime } = this.state;
         if (pn) {
             pageNum = pn;
         }
         this.setState({
             loading: true,
         });
+        if (dateType > -1) {
+            let xRnage = getRangeTimeByType(dateTypes[dateType].type);
+            if (xRnage) {
+                startTime = xRnage.start;
+                endTime = xRnage.end;
+            }
+        }
         let res = await this.props.loginStore.getMerchantOrders({
-            ...getRangeTimeByType(dateTypes[dateType].type),
-
+            start: startTime,
+            end: endTime,
             userId,
             pageNum,
             pageSize,
@@ -95,8 +102,54 @@ class Index extends React.Component {
         await this.fetchData();
     };
 
+    handleExport = async () => {
+
+        let { loading, hasMore, dataSource, dateType, startTime, endTime } = this.state;
+
+        if (dateType > -1) {
+            let xRange = getRangeTimeByType(dateTypes[dateType].type);
+            if (xRange) {
+                startTime = xRange.start;
+                endTime = xRange.end;
+            }
+        }
+
+        Taro.downloadFile({
+            url: `https://senchuangyefan.cn:9090/waimai/poi/createExecl?start=${startTime.split(' ')[0]}&end=${endTime.split(' ')[0]}`,
+            header: {
+                token: Taro.getStorageSync('sessionToken'),
+            },
+            success(res) {
+                var filePath = res.tempFilePath
+                Taro.openDocument({
+                  filePath: filePath,
+                  success: function () {
+                    console.log('打开文档成功')
+                  }
+                })
+            },
+            fail() {
+                Taro.showToast({
+                    icon: 'none',
+                    title: '文件下载失败'
+                })
+            }
+        })
+
+    }
+
     render() {
-        const { loading, hasMore, dataSource } = this.state;
+        let { loading, hasMore, dataSource, dateType, startTime, endTime } = this.state;
+        const { userInfo } = this.props.loginStore;
+
+        if (dateType > -1) {
+            let xRange = getRangeTimeByType(dateTypes[dateType].type);
+            if (xRange) {
+                startTime = xRange.start;
+                endTime = xRange.end;
+            }
+        }
+
         return (
             <>
                 <CommonListLayout
@@ -125,6 +178,48 @@ class Index extends React.Component {
                                         );
                                     }}
                                 />
+                            </View>
+                            <View className="time-filter">
+                                <Picker
+                                    mode="date"
+                                    value={startTime}
+                                    onChange={val => {
+                                        this.setState({
+                                            dateType: -1,
+                                            startTime: val.detail.value + ' 00:00:00',
+                                        });
+                                    }}
+                                >
+                                    <View style={{ padding: '5px' }}>开始:{(startTime || '').split(' ')[0]}</View>
+                                </Picker>
+
+                                <Picker
+                                    mode="date"
+                                    value={endTime}
+                                    onChange={val => {
+                                        this.setState({
+                                            dateType: -1,
+                                            endTime: val.detail.value + ' 23:59:59',
+                                        });
+                                    }}
+                                >
+                                    <View style={{ padding: '5px' }}>结束:{(endTime || '').split(' ')[0]}</View>
+                                </Picker>
+
+                                <View
+                                    style={{
+                                        padding: '2px 5px',
+                                        marginLeft: '5px',
+                                        border: '1px solid #ccc',
+                                        borderRadius: '4px',
+                                    }}
+                                    onClick={() => {
+                                        this.fetchData({ pageNum: 1 });
+                                    }}
+                                >
+                                    时间筛选
+                                </View>
+                              
                             </View>
                             <View className="total-container">总计:{this.state.total}</View>
                             <View className="t-head">
