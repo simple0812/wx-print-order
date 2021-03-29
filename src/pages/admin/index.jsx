@@ -187,8 +187,8 @@ class Admin extends React.Component {
     }
 
     render() {
-        const { loading, hasMore, dataSource, userType, startTime, endTime, dateType } = this.state;
-        const { userInfo } = this.props.loginStore;
+        let { loading, hasMore, dataSource, userType, startTime, endTime, dateType } = this.state;
+        let { userInfo } = this.props.loginStore;
         if (dateType > -1) {
             let xRange = getRangeTimeByType(dateTypes[dateType].type);
             if (xRange) {
@@ -312,7 +312,7 @@ class Admin extends React.Component {
                     )}
                     renderLayoutFooter={() => (
                         <View className="btn-apply" onClick={this.handleScan}>
-                            打印
+                            扫码
                         </View>
                     )}
                 >

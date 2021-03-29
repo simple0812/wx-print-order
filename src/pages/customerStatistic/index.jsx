@@ -108,7 +108,7 @@ class Index extends React.Component {
     
 
     render() {
-        const { loading, hasMore, dataSource, startTime, endTime, dateType } = this.state;
+        let { loading, hasMore, dataSource, startTime, endTime, dateType } = this.state;
 
         const { userInfo } = this.props.loginStore;
         if (dateType > -1) {
