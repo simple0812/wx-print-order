@@ -1,14 +1,12 @@
 .orderApply {
     background: #f7f8f9;
-    padding:0px 10px;
+    padding: 0px 10px;
     width: 100vw;
     height: 100vh;
     box-sizing: border-box;
     overflow-x: hidden;
 
     position: relative;
-
-  
 
     &-title {
         width: 106px;
@@ -18,11 +16,11 @@
 
     &-desc {
         font-size: 12px;
-        color: #251A19;
+        color: #251a19;
         font-weight: 400;
         line-height: 12px;
         align-self: flex-start;
-        padding-left: 10px;;
+        padding-left: 10px;
     }
 
     .form-container {
@@ -31,8 +29,8 @@
         align-items: flex-start;
         .input-title {
             font-size: 14px;
-            flex-grow:0;
-            flex-shrink:0;
+            flex-grow: 0;
+            flex-shrink: 0;
             height: 42px;
             line-height: 28px;
             margin-right: 5;
@@ -41,7 +39,7 @@
         .bnq-form-item {
             width: 335px;
             margin-bottom: 12px;
-            background: rgba(255,255,255,0.50);
+            background: rgba(255, 255, 255, 0.5);
             border-radius: 4px;
 
             .at-input {
@@ -56,8 +54,8 @@
         }
 
         .zl-input {
-            flex-grow:1;
-            flex-shrink:1;
+            flex-grow: 1;
+            flex-shrink: 1;
             width: 100%;
             margin-bottom: 12px;
             background: #eee;
@@ -77,7 +75,7 @@
         }
 
         .zl-input-placeholder {
-            color: #785B45;
+            color: #785b45;
             font-size: 16px;
         }
 
@@ -96,9 +94,14 @@
                 margin-right: 5px;
             }
         }
-        
     }
-
+    .printer-box {
+        display: flex;
+        flex-direction:row;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+    }
     .btn-apply {
         // background-image: url(../assets/btn.png);
         background: #fe7100;
@@ -108,11 +111,12 @@
         margin: 0;
         border: none;
         width: 100%;
-        height: 48px;
-        margin: 15px 0 5px 0;
-        font-size: 20px;
+        height: 32px;
+        margin: 5px 10px 5px 0;
+        font-size: 14px;
         color: white;
-        line-height: 48px;
+        line-height: 32px;
+
 
         display: flex;
         align-items: center;
@@ -122,17 +126,14 @@
     .btn-detail {
         width: 100vw;
         font-size: 14px;
-        color:#999;
+        color: #999;
         text-align: center;
         margin-top: 10px;
         margin-bottom: 20px;
     }
 
-
     .bm-txt {
         width: 39px;
         height: 19px;
-
     }
 }
-

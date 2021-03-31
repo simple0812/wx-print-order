@@ -162,6 +162,37 @@ class Merchant extends Component {
             });
         }
     };
+
+    handleScan = () => {
+        let _this = this;
+        Taro.scanCode({
+            async success(res) {
+                if (res.errMsg !== 'scanCode:ok') {
+                    Taro.showToast({
+                        title: res.errMsg || '扫码失败',
+                    });
+
+                    return;
+                }
+
+                let data = res.result;
+                if (data.indexOf(':') === -1) {
+                    return;
+                }
+                let arr = data.split(':');
+
+                _this.setState(
+                    {
+                        printer: {
+                            printerSn: arr[0],
+                            printerKey: arr[1],
+                        },
+                    },
+                    _this.handleAddPrinter,
+                );
+            },
+        });
+    };
     render() {
         const { userInfo } = this.props.loginStore;
         const { model, statistic, printer } = this.state;
@@ -218,8 +249,13 @@ class Merchant extends Component {
                             onInput={this.handlePrinterChange.bind(this, 'printerKey')}
                         ></Input>
                     </View>
-                    <View className="btn-apply" onClick={this.handleAddPrinter}>
-                        添加打印机
+                    <View className="printer-box">
+                        <View className="btn-apply" onClick={this.handleScan}>
+                            扫码添加打印机
+                        </View>
+                        <View className="btn-apply" onClick={this.handleAddPrinter}>
+                            添加打印机
+                        </View>
                     </View>
                 </View>
                 <View>

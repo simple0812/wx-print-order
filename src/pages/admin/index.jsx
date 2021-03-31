@@ -162,29 +162,23 @@ class Admin extends React.Component {
                 }
 
                 let data = res.result;
-                console.log('scan ', data);
+                console.log('scan ', data, typeof data);
                 try {
-                    if (res.code === 200) {
-                        Taro.showToast({
-                            icon: 'none',
-                            title: data,
-                        });
-                    } else {
-                        Taro.showToast({
-                            icon: 'none',
-                            title: res?.message || '扫码失败',
-                        });
-                    }
+                    data = JSON.parse(data);
+                    Taro.showToast({
+                        icon: 'none',
+                        title: `sellerId: ${data.sellerId}-id:${data.id}\r\norderNum:${data.orderNum}`,
+                    });
                 } catch (e) {
                     Taro.showToast({
                         icon: 'none',
-                        title: '扫码失败',
+                        title: data,
+                        duration: 5000
                     });
                 }
-                
             },
         });
-    }
+    };
 
     render() {
         let { loading, hasMore, dataSource, userType, startTime, endTime, dateType } = this.state;
