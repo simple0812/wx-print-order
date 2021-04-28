@@ -142,7 +142,12 @@ class Merchant extends Component {
         Taro.showLoading({
             mask: true,
         });
-        let res = await this.props.loginStore.addPrinter({
+
+        let method = this.props.loginStore.addPrinter;
+        if (printer.id) {
+            method = this.props.loginStore.modifyPrinter;
+        }
+        let res = await method({
             userId: userInfo?.id,
             userName: userInfo?.userName,
             ...printer,

@@ -90,10 +90,18 @@ class Merchant extends Component {
                     userId: userInfo?.id,
                 });
                 if (dRes?.code == 200) {
-                    Taro.showToast({
-                        icon: 'none',
-                        title: '扫码成功',
-                    });
+                    if(res.success) {
+                        Taro.showToast({
+                            icon: 'none',
+                            title: '扫码成功',
+                        });
+                    } else {
+                        Taro.showToast({
+                            icon: 'none',
+                            title: `已被${dRes.result?.userName}扫码`,
+                        });
+                    }
+                  
                 } else {
                     Taro.showToast({
                         icon: 'none',

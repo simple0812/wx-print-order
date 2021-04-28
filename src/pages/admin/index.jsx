@@ -151,6 +151,7 @@ class Admin extends React.Component {
     };
 
     handleScan = () => {
+        let _this = this;
         Taro.scanCode({
             async success(res) {
                 if (res.errMsg !== 'scanCode:ok') {
@@ -162,20 +163,27 @@ class Admin extends React.Component {
                 }
 
                 let data = res.result;
-                console.log('scan ', data, typeof data);
+                console.log('scan ', data);
                 try {
                     data = JSON.parse(data);
-                    Taro.showToast({
-                        icon: 'none',
-                        title: `sellerId: ${data.sellerId}-id:${data.id}\r\norderNum:${data.orderNum}`,
-                    });
                 } catch (e) {
+                    data = {};
+                }
+                let dRes = await _this.props.loginStore.adminScanCode({
+                    id: data?.id,
+                });
+                if (!dRes.success) {
                     Taro.showToast({
                         icon: 'none',
-                        title: data,
-                        duration: 5000
+                        title: dRes?.message || '识别失败',
                     });
+                    return
                 }
+                Taro.showToast({
+                    icon: 'none',
+                    title: `已被${dRes.result?.studentName}扫码`,
+                });
+
             },
         });
     };

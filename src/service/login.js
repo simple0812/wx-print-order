@@ -32,6 +32,9 @@ class LoginService extends BaseService {
       scanCode: (params) => {
         return put('/orderPrintLog/modify?' + qs.stringify(params || {}))
       },
+      adminScanCode: (params) => {
+        return get('/orderPrintLog/adminScan', {...params})
+      },
       printCode: ({printerId, count}) => {
         return post(`/sellerPrinter/print/${printerId}/${count}`)
       },
@@ -40,6 +43,7 @@ class LoginService extends BaseService {
         return get(`/sellerPrinter/getByUserId/${userId}`)
       },
       addPrinter: postFn(`/sellerPrinter/addPrinter`),
+      modifyPrinter: putFn(`/sellerPrinter/modify`),
 
       getMerchantList: '/orderPrintLog/countAllSellerByDateRange',
       getCustomerList: '/orderPrintLog/countAllStudentByDateRange',
